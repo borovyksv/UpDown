@@ -211,8 +211,9 @@ public class AppController {
 			User user = userService.findById(userId);
 			model.addAttribute("user", user);
 
-
-			userDocumentService.saveDocument(new UserDocument(folderName, "", "folder", new byte[]{0}, user));
+			UserDocument doc = new UserDocument(folderName, "", "folder", new byte[]{0}, user);
+			doc.setFolder(true);
+			userDocumentService.saveDocument(doc);
 
 			return "redirect:/add-document-"+userId;
 

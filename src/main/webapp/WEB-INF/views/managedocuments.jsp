@@ -35,7 +35,7 @@
 							<td>${doc.name}</td>
 
 							<c:choose>
-								<c:when test="${doc.type=='folder'}">
+								<c:when test="${doc.folder}">
 									<td><img src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/folder-blue-128.png" width="25" height="25"></td>
 								</c:when>
 								<c:otherwise>
@@ -44,7 +44,15 @@
 							</c:choose>
 
 							<td>${doc.description}</td>
-							<td><a href="<c:url value='/download-document-${user.id}-${doc.id}' />" class="btn btn-success custom-width">download</a></td>
+							<c:choose>
+								<c:when test="${doc.folder}">
+									<%--todo--%>
+									<td><a href="<c:url value='/open-folder-${user.id}-${doc.id}' />" class="btn btn-success custom-width">open</a></td>
+								</c:when>
+								<c:otherwise>
+									<td><a href="<c:url value='/download-document-${user.id}-${doc.id}' />" class="btn btn-success custom-width">download</a></td>
+								</c:otherwise>
+							</c:choose>
 							<td><a href="<c:url value='/delete-document-${user.id}-${doc.id}' />" class="btn btn-danger custom-width">delete</a></td>
 						</tr>
 					</c:forEach>
