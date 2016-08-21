@@ -14,10 +14,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -203,7 +200,24 @@ public class AppController {
 			return "redirect:/add-document-"+userId;
 		}
 	}
-	
+
+	// TODO: 21.08.2016
+
+	@RequestMapping(value = { "/create-folder-{userId}" }, method = RequestMethod.POST)
+	public String createFolder(ModelMap model, @PathVariable int userId, @RequestParam("folderName") String folderName) throws IOException{
+
+
+
+			User user = userService.findById(userId);
+			model.addAttribute("user", user);
+
+
+			userDocumentService.saveDocument(new UserDocument(folderName, "", "folder", new byte[]{0}, user));
+
+			return "redirect:/add-document-"+userId;
+
+	}
+
 	private void saveDocument(FileBucket fileBucket, User user) throws IOException{
 		
 		UserDocument document = new UserDocument();

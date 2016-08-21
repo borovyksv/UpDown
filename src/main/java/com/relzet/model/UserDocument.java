@@ -15,6 +15,16 @@ import javax.persistence.Table;
 @Entity
 @Table(name="USER_DOCUMENT")
 public class UserDocument {
+	public UserDocument() {
+	}
+
+	public UserDocument(String name, String description, String type, byte[] content, User user) {
+		this.name = name;
+		this.description = description;
+		this.type = type;
+		this.content = content;
+		this.user = user;
+	}
 
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;	

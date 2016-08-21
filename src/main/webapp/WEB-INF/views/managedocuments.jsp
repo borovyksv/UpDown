@@ -33,12 +33,30 @@
 						<tr>
 							<td>${counter.index + 1}</td>
 							<td>${doc.name}</td>
-							<td>${doc.type}</td>
+
+							<c:choose>
+								<c:when test="${doc.type=='folder'}">
+									<td><img src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/folder-blue-128.png" width="25" height="25"></td>
+								</c:when>
+								<c:otherwise>
+									<td>${doc.type}</td>
+								</c:otherwise>
+							</c:choose>
+
 							<td>${doc.description}</td>
 							<td><a href="<c:url value='/download-document-${user.id}-${doc.id}' />" class="btn btn-success custom-width">download</a></td>
 							<td><a href="<c:url value='/delete-document-${user.id}-${doc.id}' />" class="btn btn-danger custom-width">delete</a></td>
 						</tr>
 					</c:forEach>
+
+
+					<%--!todo!!!!!!!!!!!!!!!!!!!!!!!!!!--%>
+					<%--<td><a href="<c:url value='/create-folder-${user.id}' />" class="btn btn-success ">Create new Folder</a></td>--%>
+					<form:form method="POST" action="/create-folder-${user.id}">
+						<input type="text"  required placeholder="Folder name" name="folderName" >
+						<input type="submit" class="btn btn-success" value="Create new Folder"/>
+					</form:form>
+
 		    		</tbody>
 		    	</table>
 		    </div>
@@ -51,7 +69,7 @@
 			
 					<div class="row">
 						<div class="form-group col-md-12">
-							<label class="col-md-3 control-lable" for="file">Upload a document</label>
+							<label class="col-md-3 control-label" for="file">Upload a document</label>
 							<div class="col-md-7">
 								<form:input type="file" path="file" id="file" class="form-control input-sm"/>
 								<div class="has-error">
@@ -62,7 +80,7 @@
 					</div>
 					<div class="row">
 						<div class="form-group col-md-12">
-							<label class="col-md-3 control-lable" for="file">Description</label>
+							<label class="col-md-3 control-label" for="file">Description</label>
 							<div class="col-md-7">
 								<form:input type="text" path="description" id="description" class="form-control input-sm"/>
 							</div>
