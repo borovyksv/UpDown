@@ -15,4 +15,6 @@ public interface UserDocumentDao {
 	List<UserDocument> findAllByUserId(int userId);
 	
 	void deleteById(int id);
+
+	List<UserDocument> findAllInFolder(int userId, String path);
 }

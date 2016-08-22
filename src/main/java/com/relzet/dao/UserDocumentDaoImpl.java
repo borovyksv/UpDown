@@ -5,6 +5,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository("userDocumentDao")
@@ -37,6 +38,15 @@ public class UserDocumentDaoImpl extends AbstractDao<Integer, UserDocument> impl
 	public void deleteById(int id) {
 		UserDocument document =  getByKey(id);
 		delete(document);
+	}
+
+	public List<UserDocument> findAllInFolder(int userId, String path) {
+		List<UserDocument> result = new ArrayList<UserDocument>();
+		for(UserDocument ud: findAllByUserId(userId)) {
+			if (ud.getDescription().equals(path)) result.add(ud);
+		}
+
+		return result;
 	}
 
 }

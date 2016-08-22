@@ -15,4 +15,6 @@ public interface UserDocumentService {
 	void saveDocument(UserDocument document);
 	
 	void deleteById(int id);
+
+	List<UserDocument> findAllInFolder(int userId, String path);
 }

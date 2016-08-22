@@ -110,6 +110,7 @@ public class AppController {
 		User user = userService.findBySSO(ssoId);
 		model.addAttribute("user", user);
 		model.addAttribute("edit", true);
+		model.addAttribute("path", "ROOT");
 		return "registration";
 	}
 	
@@ -145,16 +146,8 @@ public class AppController {
 	
 	@RequestMapping(value = { "/add-document-{userId}" }, method = RequestMethod.GET)
 	public String addDocuments(@PathVariable int userId, ModelMap model) {
-		User user = userService.findById(userId);
-		model.addAttribute("user", user);
-
-		FileBucket fileModel = new FileBucket();
-		model.addAttribute("fileBucket", fileModel);
-
-		List<UserDocument> documents = userDocumentService.findAllByUserId(userId);
-		model.addAttribute("documents", documents);
-		
-		return "managedocuments";
+		String ROOT = "ROOT";
+		return "redirect:/open-folder-"+userId+"-"+ROOT;
 	}
 	
 
@@ -168,6 +161,23 @@ public class AppController {
         FileCopyUtils.copy(document.getContent(), response.getOutputStream());
  
  		return "redirect:/add-document-"+userId;
+	}
+
+
+	//// TODO: 22.08.2016
+	@RequestMapping(value = { "/open-folder-{userId}-{path}" }, method = RequestMethod.GET)
+	public String openFolder(@PathVariable int userId, @PathVariable String path, ModelMap model) throws IOException {
+		User user = userService.findById(userId);
+		model.addAttribute("user", user);
+
+		FileBucket fileModel = new FileBucket();
+		model.addAttribute("fileBucket", fileModel);
+
+		List<UserDocument> documents = userDocumentService.findAllInFolder(userId, path);
+		model.addAttribute("documents", documents);
+
+		return "managedocuments";
+
 	}
 
 	@RequestMapping(value = { "/delete-document-{userId}-{docId}" }, method = RequestMethod.GET)
@@ -211,7 +221,7 @@ public class AppController {
 			User user = userService.findById(userId);
 			model.addAttribute("user", user);
 
-			UserDocument doc = new UserDocument(folderName, "", "folder", new byte[]{0}, user);
+			UserDocument doc = new UserDocument(folderName, "ROOT", "folder", new byte[]{0}, user);
 			doc.setFolder(true);
 			userDocumentService.saveDocument(doc);
 
@@ -226,7 +236,7 @@ public class AppController {
 		MultipartFile multipartFile = fileBucket.getFile();
 		
 		document.setName(multipartFile.getOriginalFilename());
-		document.setDescription(fileBucket.getDescription());
+		document.setDescription("ROOT"+fileBucket.getDescription());
 		document.setType(multipartFile.getContentType());
 		document.setContent(multipartFile.getBytes());
 		document.setUser(user);
