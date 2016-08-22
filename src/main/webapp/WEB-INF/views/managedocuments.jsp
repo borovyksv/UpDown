@@ -74,7 +74,7 @@
 			
 			<div class="panel-heading"><span class="lead">Upload New Document</span></div>
 			<div class="uploadcontainer">
-				<form:form method="POST" modelAttribute="fileBucket" enctype="multipart/form-data" class="form-horizontal">
+				<form:form method="POST" modelAttribute="fileBucket" enctype="multipart/form-data" action="/add-document-${user.id}-${currentFolder.id}" class="form-horizontal">
 			
 					<div class="row">
 						<div class="form-group col-md-12">

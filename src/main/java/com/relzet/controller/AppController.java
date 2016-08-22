@@ -197,8 +197,8 @@ public class AppController {
 		return "redirect:/add-document-"+userId;
 	}
 
-	@RequestMapping(value = { "/add-document-{userId}" }, method = RequestMethod.POST)
-	public String uploadDocument(@Valid FileBucket fileBucket, BindingResult result, ModelMap model, @PathVariable int userId) throws IOException{
+	@RequestMapping(value = { "/add-document-{userId}-{docId}" }, method = RequestMethod.POST)
+	public String uploadDocument(@Valid FileBucket fileBucket, BindingResult result, ModelMap model, @PathVariable int userId, @PathVariable int docId) throws IOException{
 		
 		if (result.hasErrors()) {
 			System.out.println("validation errors");
@@ -216,7 +216,7 @@ public class AppController {
 			User user = userService.findById(userId);
 			model.addAttribute("user", user);
 
-			saveDocument(fileBucket, user);
+			saveDocument(fileBucket, user, docId);
 
 			return "redirect:/add-document-"+userId;
 		}
@@ -243,14 +243,16 @@ public class AppController {
 
 	}
 
-	private void saveDocument(FileBucket fileBucket, User user) throws IOException{
+	private void saveDocument(FileBucket fileBucket, User user, int docId) throws IOException{
 		
 		UserDocument document = new UserDocument();
 		
 		MultipartFile multipartFile = fileBucket.getFile();
+
+
 		
 		document.setName(multipartFile.getOriginalFilename());
-		document.setDescription("ROOT"+fileBucket.getDescription());
+		document.setDescription(userDocumentService.findById(docId).getDescription()+"."+multipartFile.getOriginalFilename());
 		document.setType(multipartFile.getContentType());
 		document.setContent(multipartFile.getBytes());
 		document.setUser(user);
