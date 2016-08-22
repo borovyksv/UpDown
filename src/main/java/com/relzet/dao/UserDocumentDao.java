@@ -16,5 +16,7 @@ public interface UserDocumentDao {
 	
 	void deleteById(int id);
 
-	List<UserDocument> findAllInFolder(int userId, String path);
+	List<UserDocument> findAllInFolder(int userId, int docId);
+
+	UserDocument findRootByUserId(int userId);
 }

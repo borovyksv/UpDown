@@ -40,13 +40,22 @@ public class UserDocumentDaoImpl extends AbstractDao<Integer, UserDocument> impl
 		delete(document);
 	}
 
-	public List<UserDocument> findAllInFolder(int userId, String path) {
+	public List<UserDocument> findAllInFolder(int userId, int docId) {
 		List<UserDocument> result = new ArrayList<UserDocument>();
+
 		for(UserDocument ud: findAllByUserId(userId)) {
-			if ((ud.getDescription()).equals(path+"."+ud.getName())) result.add(ud);
+			if ((ud.getDescription()).equals(findById(docId).getDescription()+"."+ud.getName())) result.add(ud);
 		}
 
 		return result;
+	}
+
+	public UserDocument findRootByUserId(int userId) {
+		for(UserDocument ud: findAllByUserId(userId)) {
+			if (ud.getName().equals("ROOT")) return ud;
+
+		}
+		return null;
 	}
 
 }

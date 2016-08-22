@@ -97,9 +97,13 @@ public class AppController {
 		
 		model.addAttribute("user", user);
 		model.addAttribute("success", "User " + user.getFirstName() + " "+ user.getLastName() + " registered successfully");
+
+		userDocumentService.saveDocument(createFolder(user, "ROOT"));
 		//return "success";
 		return "registrationsuccess";
 	}
+
+
 
 
 	/**
@@ -110,7 +114,6 @@ public class AppController {
 		User user = userService.findBySSO(ssoId);
 		model.addAttribute("user", user);
 		model.addAttribute("edit", true);
-		model.addAttribute("path", "ROOT");
 		return "registration";
 	}
 	
@@ -146,8 +149,9 @@ public class AppController {
 	
 	@RequestMapping(value = { "/add-document-{userId}" }, method = RequestMethod.GET)
 	public String addDocuments(@PathVariable int userId, ModelMap model) {
-		String ROOT = "ROOT";
-		return "redirect:/open-folder-"+userId+"-"+ROOT;
+
+		UserDocument doc = userDocumentService.findRootByUserId(userId);
+		return "redirect:/open-folder-"+userId+"-"+doc.getId();
 	}
 	
 
@@ -165,16 +169,23 @@ public class AppController {
 
 
 	//// TODO: 22.08.2016
-	@RequestMapping(value = { "/open-folder-{userId}-{path}" }, method = RequestMethod.GET)
-	public String openFolder(@PathVariable int userId, @PathVariable String path, ModelMap model) throws IOException {
+	@RequestMapping(value = { "/open-folder-{userId}-{docId}" }, method = RequestMethod.GET)
+	public String openFolder(@PathVariable int userId, @PathVariable int docId, ModelMap model) throws IOException {
 		User user = userService.findById(userId);
 		model.addAttribute("user", user);
 
 		FileBucket fileModel = new FileBucket();
 		model.addAttribute("fileBucket", fileModel);
 
-		List<UserDocument> documents = userDocumentService.findAllInFolder(userId, path);
+		List<UserDocument> documents = userDocumentService.findAllInFolder(userId, docId);
 		model.addAttribute("documents", documents);
+
+
+//		model.addAttribute("currentFolder", docId);
+		model.addAttribute("currentFolder", userDocumentService.findById(docId));
+
+
+
 
 		return "managedocuments";
 
@@ -213,17 +224,20 @@ public class AppController {
 
 	// TODO: 21.08.2016
 
-	@RequestMapping(value = { "/create-folder-{userId}" }, method = RequestMethod.POST)
-	public String createFolder(ModelMap model, @PathVariable int userId, @RequestParam("folderName") String folderName) throws IOException{
+	@RequestMapping(value = { "/create-folder-{userId}-{docId}" }, method = RequestMethod.POST)
+	public String createFolder(ModelMap model, @PathVariable int userId, @PathVariable int docId, @RequestParam("folderName") String folderName) throws IOException{
 
 
 
 			User user = userService.findById(userId);
 			model.addAttribute("user", user);
 
-			UserDocument doc = new UserDocument(folderName, "ROOT", "folder", new byte[]{0}, user);
-			doc.setFolder(true);
-			userDocumentService.saveDocument(doc);
+
+			userDocumentService.saveDocument(createFolder(
+					user,
+					folderName,
+					userDocumentService.findById(docId).getDescription()+"."+folderName
+			));
 
 			return "redirect:/add-document-"+userId;
 
@@ -241,6 +255,16 @@ public class AppController {
 		document.setContent(multipartFile.getBytes());
 		document.setUser(user);
 		userDocumentService.saveDocument(document);
+	}
+
+	private UserDocument createFolder(User user , String folderName) {
+		return createFolder(user, folderName, "ROOT");
+	}
+
+	private UserDocument createFolder(User user , String folderName, String parentFolder) {
+		UserDocument doc = new UserDocument(folderName, parentFolder, "folder", new byte[]{0}, user);
+		doc.setFolder(true);
+		return doc;
 	}
 	
 }

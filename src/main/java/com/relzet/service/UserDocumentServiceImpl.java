@@ -35,8 +35,12 @@ public class UserDocumentServiceImpl implements UserDocumentService{
 		dao.deleteById(id);
 	}
 
-	public List<UserDocument> findAllInFolder(int userId, String path) {
-		return dao.findAllInFolder(userId, path);
+	public List<UserDocument> findAllInFolder(int userId, int docId) {
+		return dao.findAllInFolder(userId, docId);
+	}
+
+	public UserDocument findRootByUserId(int userId) {
+		return dao.findRootByUserId(userId);
 	}
 
 

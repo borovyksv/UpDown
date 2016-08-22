@@ -15,8 +15,9 @@
 	<div class="generic-container">
 		<div class="panel panel-default">
 			  <!-- Default panel contents -->
-		  	<div class="panel-heading"><span class="lead">List of Documents </span></div>
+		  	<div class="panel-heading"><span class="lead">List of Documents (<c:out value="${currentFolder.description}"/>)</span></div>
 		  	<div class="tablecontainer">
+
 				<table class="table table-hover">
 		    		<thead>
 			      		<tr>
@@ -47,7 +48,7 @@
 							<c:choose>
 								<c:when test="${doc.folder}">
 									<%--todo--%>
-									<td><a href="<c:url value='/open-folder-${user.id}-${doc.description}' />" class="btn btn-success custom-width">open</a></td>
+									<td><a href="<c:url value='/open-folder-${user.id}-${doc.id}' />" class="btn btn-success custom-width">open</a></td>
 								</c:when>
 								<c:otherwise>
 									<td><a href="<c:url value='/download-document-${user.id}-${doc.id}' />" class="btn btn-success custom-width">download</a></td>
@@ -60,7 +61,7 @@
 
 					<%--!todo!!!!!!!!!!!!!!!!!!!!!!!!!!--%>
 					<%--<td><a href="<c:url value='/create-folder-${user.id}' />" class="btn btn-success ">Create new Folder</a></td>--%>
-					<form:form method="POST"  action="/create-folder-${user.id}-${path}">
+					<form:form method="POST"  action="/create-folder-${user.id}-${currentFolder.id}">
 						<input type="text"  required placeholder="Folder name" name="folderName" >
 						<input type="submit" class="btn btn-success" value="Create new Folder"/>
 					</form:form>
