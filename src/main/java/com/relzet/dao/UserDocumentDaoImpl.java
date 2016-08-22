@@ -43,7 +43,7 @@ public class UserDocumentDaoImpl extends AbstractDao<Integer, UserDocument> impl
 	public List<UserDocument> findAllInFolder(int userId, String path) {
 		List<UserDocument> result = new ArrayList<UserDocument>();
 		for(UserDocument ud: findAllByUserId(userId)) {
-			if (ud.getDescription().equals(path)) result.add(ud);
+			if ((ud.getDescription()).equals(path+"."+ud.getName())) result.add(ud);
 		}
 
 		return result;

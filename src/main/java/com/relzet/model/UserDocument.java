@@ -76,7 +76,7 @@ public class UserDocument {
     }
 
     public String getDescription() {
-        return description;
+        return description+"."+name;
     }
 
     public void setDescription(String description) {

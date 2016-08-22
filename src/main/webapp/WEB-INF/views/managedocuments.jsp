@@ -47,7 +47,7 @@
 							<c:choose>
 								<c:when test="${doc.folder}">
 									<%--todo--%>
-									<td><a href="<c:url value='/open-folder-${user.id}-${path}' />" class="btn btn-success custom-width">open</a></td>
+									<td><a href="<c:url value='/open-folder-${user.id}-${doc.description}' />" class="btn btn-success custom-width">open</a></td>
 								</c:when>
 								<c:otherwise>
 									<td><a href="<c:url value='/download-document-${user.id}-${doc.id}' />" class="btn btn-success custom-width">download</a></td>
@@ -60,7 +60,7 @@
 
 					<%--!todo!!!!!!!!!!!!!!!!!!!!!!!!!!--%>
 					<%--<td><a href="<c:url value='/create-folder-${user.id}' />" class="btn btn-success ">Create new Folder</a></td>--%>
-					<form:form method="POST"  action="/create-folder-${user.id}">
+					<form:form method="POST"  action="/create-folder-${user.id}-${path}">
 						<input type="text"  required placeholder="Folder name" name="folderName" >
 						<input type="submit" class="btn btn-success" value="Create new Folder"/>
 					</form:form>
