@@ -160,7 +160,7 @@ public class AppController {
 		UserDocument document = userDocumentService.findById(docId);
 		response.setContentType(document.getType());
         response.setContentLength(document.getContent().length);
-        response.setHeader("Content-Disposition","attachment; filename=\"" + document.getName() +"\"");
+        response.setHeader("Content-Disposition","inline; filename=\"" + document.getName() +"\"");
  
         FileCopyUtils.copy(document.getContent(), response.getOutputStream());
  
@@ -181,7 +181,6 @@ public class AppController {
 		model.addAttribute("documents", documents);
 
 
-//		model.addAttribute("currentFolder", docId);
 		model.addAttribute("currentFolder", userDocumentService.findById(docId));
 
 
@@ -208,7 +207,7 @@ public class AppController {
 			List<UserDocument> documents = userDocumentService.findAllByUserId(userId);
 			model.addAttribute("documents", documents);
 			
-			return "managedocuments";
+			return "redirect:/add-document-"+userId;
 		} else {
 			
 			System.out.println("Fetching file");
