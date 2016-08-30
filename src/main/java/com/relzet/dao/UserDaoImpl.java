@@ -34,6 +34,13 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 		return users;
 	}
 
+	public User findUserByLogin(String login) {
+		Criteria crit = createEntityCriteria();
+		crit.add(Restrictions.eq("LOGIN", login));
+		User user = (User)crit.uniqueResult();
+		return user;
+	}
+
 	public void save(User user) {
 		persist(user);
 	}

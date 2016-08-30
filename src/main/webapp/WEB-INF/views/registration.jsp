@@ -17,10 +17,31 @@
 	<div class="well lead">User Registration Form</div>
  	<form:form method="POST" modelAttribute="user" class="form-horizontal">
 		<form:input type="hidden" path="id" id="id"/>
-		
 		<div class="row">
 			<div class="form-group col-md-12">
-				<label class="col-md-3 control-lable" for="firstName">First Name</label>
+				<label class="col-md-3 control-label" for="login">Login</label>
+				<div class="col-md-7">
+					<form:input type="text" path="login" id="login" class="form-control input-sm"/>
+					<div class="has-error">
+						<form:errors path="login" class="help-inline"/>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-md-12">
+				<label class="col-md-3 control-label" for="password">Password</label>
+				<div class="col-md-7">
+					<form:input type="password" path="password" id="password" class="form-control input-sm"/>
+					<div class="has-error">
+						<form:errors path="password" class="help-inline"/>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-md-12">
+				<label class="col-md-3 control-label" for="firstName">First Name</label>
 				<div class="col-md-7">
 					<form:input type="text" path="firstName" id="firstName" class="form-control input-sm"/>
 					<div class="has-error">
@@ -32,7 +53,7 @@
 
 		<div class="row">
 			<div class="form-group col-md-12">
-				<label class="col-md-3 control-lable" for="lastName">Last Name</label>
+				<label class="col-md-3 control-label" for="lastName">Last Name</label>
 				<div class="col-md-7">
 					<form:input type="text" path="lastName" id="lastName" class="form-control input-sm" />
 					<div class="has-error">
@@ -44,7 +65,7 @@
 
 		<div class="row">
 			<div class="form-group col-md-12">
-				<label class="col-md-3 control-lable" for="ssoId">SSO ID</label>
+				<label class="col-md-3 control-label" for="ssoId">SSO ID</label>
 				<div class="col-md-7">
 					<c:choose>
 						<c:when test="${edit}">
@@ -63,7 +84,7 @@
 
 		<div class="row">
 			<div class="form-group col-md-12">
-				<label class="col-md-3 control-lable" for="email">Email</label>
+				<label class="col-md-3 control-label" for="email">Email</label>
 				<div class="col-md-7">
 					<form:input type="text" path="email" id="email" class="form-control input-sm" />
 					<div class="has-error">
