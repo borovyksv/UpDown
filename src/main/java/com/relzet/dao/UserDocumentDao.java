@@ -19,4 +19,14 @@ public interface UserDocumentDao {
 	List<UserDocument> findAllInFolder(int userId, int docId);
 
 	UserDocument findRootByUserId(int userId);
+
+	List<UserDocument> findFoldersInFolder(int userId, int docId);
+
+	List<UserDocument> findDocsInFolder(int userId, int docId);
+
+	List<UserDocument> searchFoldersInFolder(int userId, int docId, String target);
+
+	List<UserDocument> searchDocsInFolder(int userId, int docId, String target);
+
+	List<UserDocument> filterDocsInFolder(int userId, int docId, String[] filters);
 }

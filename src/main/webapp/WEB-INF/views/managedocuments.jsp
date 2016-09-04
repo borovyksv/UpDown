@@ -1,133 +1,321 @@
+<!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<html>
+<html lang="en">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Upload/Download/Delete Documents</title>
-    <link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"></link>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title> Your Disc</title>
+
+
+    <link rel="shortcut icon" href="/static/icon.png"
+          type="image/x-icon">
+    <!-- Bootstrap Core CSS -->
+    <link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet"></link>
+
+    <!-- Custom CSS -->
+    <link href="<c:url value='/static/css/sb-admin.css' />" rel="stylesheet"></link>
     <link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
 
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <!-- Morris Charts CSS -->
+    <link href="<c:url value='/static/css/plugins/morris.css' />" rel="stylesheet"></link>
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css">
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="/static/js/bootstrap.min.js"></script>
+    <!-- Custom Fonts -->
+    <link href="<c:url value='/static/font-awesome/css/font-awesome.min.css' />" rel="stylesheet"></link>
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
 </head>
 
 <body>
 
-<div class="generic-container">
-    <div class="panel panel-default">
-        <!-- Default panel contents -->
-        <div class="panel-heading"><span class="lead">List of Documents (<c:out
-                value="${currentFolder.description}"/>)</span></div>
-        <div class="tablecontainer">
+<div id="wrapper">
 
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th>No.</th>
-                    <th>File Name</th>
-                    <th>Type</th>
-                    <th>Path</th>
-                    <th width="100"></th>
-                    <th width="100"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${documents}" var="doc" varStatus="counter">
-                    <tr>
-                        <td>${counter.index + 1}</td>
-                        <td>${doc.name}</td>
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
 
-                        <c:choose>
-                            <c:when test="${doc.folder}">
-                                <td><img
-                                        src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/folder-blue-128.png"
-                                        width="25" height="25"></td>
-                            </c:when>
-                            <c:otherwise>
-                                <td>${doc.type}</td>
-                            </c:otherwise>
-                        </c:choose>
 
-                        <td>${doc.description}</td>
-                        <c:choose>
-                            <c:when test="${doc.folder}">
-                                <%--todo--%>
-                                <td><a href="<c:url value='/open-folder-${user.id}-${doc.id}' />"
-                                       class="btn btn-success custom-width">open</a></td>
-                            </c:when>
-                            <c:otherwise>
-                                <td><a target="_blank" href="<c:url value='/download-document-${user.id}-${doc.id}' />"
-                                       class="btn btn-success custom-width">download</a></td>
-                            </c:otherwise>
-                        </c:choose>
-                        <td><a href="<c:url value='/delete-document-${user.id}-${doc.id}' />"
-                               class="btn btn-danger custom-width">delete</a></td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
+            <a class="navbar-brand" href="managedocuments.jsp"><i class="glyphicon glyphicon-hdd"></i> Your Disc</a>
         </div>
-    </div>
-    <div class="panel panel-default">
+        <!-- Top Menu Items -->
+        <ul class="nav navbar-right top-nav">
 
-        <div class="panel-heading"><span class="lead">Upload New Document</span></div>
-        <div class="uploadcontainer">
-            <form method="POST" action="/create-folder-${user.id}-${currentFolder.id}" class="form-horizontal">
 
-                <div class="row">
-                    <div class="form-group col-md-9">
-                        <div class="col-md-3">Create new folder</div>
-                        <div class="col-md-3">
-                            <input type="text" required placeholder="Folder name" name="folderName">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b
+                        class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav side-nav">
+                <li>
 
-                        </div>
-                        <div class="col-md-3">
-                            <input type="submit" value="Create" class="btn btn-primary btn-sm">
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
+                    <form class="form-group input-group search" action="/search-${user.id}-${currentFolder.id}">
+                        <input type="text" placeholder="Search files" class="form-control" name="target">
+                        <span class="input-group-btn"><button class="btn btn-default" type="submit"><i
+                                class="fa fa-search"></i></button></span>
+                    </form>
+                </li>
+                <li>
+                    <a href="<c:url value='/add-document-${user.id}' />"><span class="glyphicon glyphicon-download-alt"></span> ROOT Folder</a>
+                </li>
+                <li>
+                    <a href="#" type="button"  data-toggle="modal" data-target="#upload"> <span class="glyphicon glyphicon-upload"></span> Upload a file</a>
+                </li>
+                <li>
+                    <a href="#" type="button"  data-toggle="modal" data-target="#new_folder"><span class="glyphicon glyphicon-folder-close"></span> Create new Folder </a>
+                </li>
 
-        <div class="uploadcontainer">
-            <form:form method="POST" modelAttribute="fileBucket" enctype="multipart/form-data"
-                       action="/add-document-${user.id}-${currentFolder.id}" class="form-horizontal">
 
-                <div class="row">
-                    <div class="form-group col-md-9">
-                        <div class="col-md-3">Upload a document</div>
-                        <div class="col-md-3">
-                            <form:input type="file" path="file" id="file" class="form-control input-sm"/>
-                            <div class="has-error">
-                                <form:errors path="file" class="help-inline"/>
+                <li>
+                    <a href="javascript:;" data-toggle="collapse" data-target="#demo"><span class="glyphicon glyphicon-check"></span> Filters <i
+                            class="fa fa-fw fa-caret-down"></i></a>
+                    <div id="demo" class="collapse container">
+                        <form action="/filter-${user.id}-${currentFolder.id}">
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="filters" value="documents">Documents
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="filters" value="pictures">Pictures
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="filters" value="videos">Videos
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="filters" value="zip">Zip-archives
+                                    </label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <input type="submit" value="Upload" class="btn btn-primary btn-sm">
+                            <input type="submit" value="search">
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </nav>
+
+
+    <div id="page-wrapper">
+
+        <div class="container-fluid">
+
+            <div class="row">
+                <!-- Page Heading -->
+                <c:forEach items="${folders}" var="doc" varStatus="counter">
+
+                    <div class="col-lg-2 col-md-3">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-2">
+                                        <i class="fa fa-folder fa-3x"></i>
+
+                                    </div>
+                                    <div class="col-xs-10 text-right">
+                                        <div>${doc.name}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <a href="<c:url value='/delete-document-${user.id}-${doc.id}' />"
+                                       class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+                                    <a href="<c:url value='/open-folder-${user.id}-${doc.id}' />"
+                                       class="btn btn-success btn-sm pull-right">Open <span class="glyphicon glyphicon-folder-open"></span></a>
+                                </div>
+                            </a>
                         </div>
                     </div>
+                </c:forEach>
+            </div>
+            <!-- /.row -->
+            <div class="divider"></div>
+            <div class="row">
+                <c:forEach items="${documents}" var="doc" varStatus="counter">
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+
+                                <%--<div class="row">--%>
+                                    <%--<div class="collapse" id="collapseExample${doc.id}">--%>
+                                        <%--<div class="well">--%>
+                                            <%--<div class="embed-responsive embed-responsive-16by9">--%>
+                                                <%--<iframe class="embed-responsive-item"--%>
+                                                        <%--src="<c:url value='/preview-document-${user.id}-${doc.id}' />"></iframe>--%>
+                                            <%--</div>--%>
+                                        <%--</div>--%>
+                                    <%--</div>--%>
+                                <%--</div>--%>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-tasks fa-5x"></i>
+
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div>${doc.name}</div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-offset-1">
+                                            ${doc.type}
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer  text-center">
+                                    <div class=" text-center">
+                                        <a href="<c:url value='/delete-document-${user.id}-${doc.id}' />"
+                                           class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+
+                                        <a class="btn btn-primary btn-sm" role="button" data-toggle="collapse" href="#collapseExample${doc.id}" aria-expanded="false" aria-controls="collapseExample">
+                                            Preview
+                                            </a>
+
+
+                                        <a target="_blank"
+                                           href="<c:url value='/download-document-${user.id}-${doc.id}' />"
+                                           class="btn btn-success btn-sm">Download <span class="glyphicon glyphicon-download-alt"></span></a>
+
+                                    </div>
+
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="upload" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header text-center" >
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="text-center"><span class="glyphicon glyphicon-upload"></span> Upload a document</h4>
                 </div>
-            </form:form>
+                <div class="modal-body" >
+                    <form:form role="form" method="POST" modelAttribute="fileBucket"
+                               enctype="multipart/form-data"
+                               action="/add-document-${user.id}-${currentFolder.id}"
+                               class="form-vertical">
+                        <div class="form-group text-center">
+
+                            <form:input type="file" path="file" id="file"
+                                        class="form-control input-sm"/>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-upload"></span>Upload</button>
+                    </form:form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
+                </div>
+            </div>
+
         </div>
     </div>
-    <div>
-	 		<span class="well pull-left">
-	 			Go to <a href="<c:url value='/list' />">Users List</a>
-	 		</span>
-			<span class="well pull-right">
-				Go to <a href="<c:url value='/add-document-${user.id}' />">ROOT folder</a>
-			</span><br/><br/><br/>
+    <div class="modal fade" id="new_folder" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header text-center" >
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="text-center"><span class="glyphicon glyphicon-upload"></span> Create new Folder</h4>
+                </div>
+                <div class="modal-body" >
+                    <form role="form" method="POST"
+                          action="/create-folder-${user.id}-${currentFolder.id}">
+                        <div class="form-group text-center">
 
+                            <input class="form-control input-sm" type="text" required
+                                   placeholder="Folder name"
+                                   name="folderName">
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-upload"></span>Create</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
 
+
+
+    <!-- jQuery -->
+    <script src="/static/js/jquery.js"></script>
+
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/app.js"></script>
+
+
+    <!-- Morris Charts JavaScript -->
+    <script src="/static/js/plugins/morris/raphael.min.js"></script>
+    <script src="/static/js/plugins/morris/morris.min.js"></script>
+    <script src="/static/js/plugins/morris/morris-data.js"></script>
+
 </body>
+
 </html>

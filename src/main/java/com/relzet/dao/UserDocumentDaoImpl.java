@@ -6,6 +6,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Repository("userDocumentDao")
@@ -44,7 +45,9 @@ public class UserDocumentDaoImpl extends AbstractDao<Integer, UserDocument> impl
 		List<UserDocument> result = new ArrayList<UserDocument>();
 
 		for(UserDocument ud: findAllByUserId(userId)) {
-			if ((ud.getDescription()).equals(findById(docId).getDescription()+"."+ud.getName())) result.add(ud);
+			if ((ud.getDescription()).equals(findById(docId).getDescription()+"."+ud.getName())) {
+				result.add(ud);
+			}
 		}
 
 		return result;
@@ -56,6 +59,76 @@ public class UserDocumentDaoImpl extends AbstractDao<Integer, UserDocument> impl
 
 		}
 		return null;
+	}
+
+	@Override
+	public List<UserDocument> findFoldersInFolder(int userId, int docId) {
+		List<UserDocument> result = new ArrayList<UserDocument>();
+
+		for(UserDocument ud: findAllInFolder(userId, docId)) {
+			if (ud.getType().equals("folder")) result.add(ud);
+		}
+
+		return result;
+	}
+
+	@Override
+	public List<UserDocument> findDocsInFolder(int userId, int docId) {
+		List<UserDocument> result = new ArrayList<UserDocument>();
+
+		for(UserDocument ud: findAllInFolder(userId, docId)) {
+			if (!ud.getType().equals("folder")) result.add(ud);
+		}
+
+		return result;
+	}
+
+	@Override
+	public List<UserDocument> searchFoldersInFolder(int userId, int docId, String target) {
+		List<UserDocument> result = new ArrayList<UserDocument>();
+
+		for(UserDocument ud: findAllInFolder(userId, docId)) {
+			if (ud.getType().equals("folder")&&ud.getName().contains(target)) result.add(ud);
+		}
+
+		return result;
+	}
+
+	@Override
+	public List<UserDocument> searchDocsInFolder(int userId, int docId, String target) {
+		List<UserDocument> result = new ArrayList<UserDocument>();
+
+		for(UserDocument ud: findAllInFolder(userId, docId)) {
+			if ((!ud.getType().equals("folder"))&&ud.getName().contains(target)) result.add(ud);
+		}
+
+		return result;
+	}
+
+	@Override
+	public List<UserDocument> filterDocsInFolder(int userId, int docId, String[] filters) {
+		List<UserDocument> result = new ArrayList<>();
+		List<String> formats = new ArrayList<>();
+
+		//here you can change filter formats
+		for (String filter : filters) {
+			switch (filter) {
+				case "documents": formats.addAll(new ArrayList<>(Arrays.asList("text", "plain"))); break;
+				case "pictures": formats.addAll(new ArrayList<>(Arrays.asList("image")));break;
+				case "videos": formats.addAll(new ArrayList<>(Arrays.asList("video")));break;
+				case "zip": formats.addAll(new ArrayList<>(Arrays.asList("zip")));break;
+			}
+		}
+
+		//// TODO: 02.09.2016 delete docId from parameters
+		for(UserDocument ud: findAllByUserId(userId)) {
+			for (String format : formats)
+			if (ud.getType().contains(format)) result.add(ud);
+		}
+
+		return result;
+
+
 	}
 
 }

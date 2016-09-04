@@ -36,9 +36,9 @@ public class MyInitializer extends AbstractAnnotationConfigDispatcherServletInit
     
 	private static final String LOCATION = "D:/temp/";
 
-	private static final long MAX_FILE_SIZE = 1024 * 1024 * 512;//25MB
+	private static final long MAX_FILE_SIZE = 1024 * 1024 * 512;//512MB
 	
-	private static final long MAX_REQUEST_SIZE = 1024 * 1024 * 512;//30MB
+	private static final long MAX_REQUEST_SIZE = 1024 * 1024 * 512;//512MB
 
     private static final int FILE_SIZE_THRESHOLD = 0;
 }

@@ -43,5 +43,32 @@ public class UserDocumentServiceImpl implements UserDocumentService{
 		return dao.findRootByUserId(userId);
 	}
 
+	@Override
+	public List<UserDocument> findFoldersInFolder(int userId, int docId) {
+		return dao.findFoldersInFolder(userId, docId);
+	}
+
+	@Override
+	public List<UserDocument> findDocsInFolder(int userId, int docId) {
+		return dao.findDocsInFolder(userId, docId);
+	}
+
+	@Override
+	public List<UserDocument> searchFoldersInFolder(int userId, int docId, String target) {
+		return dao.searchFoldersInFolder(userId, docId, target);
+	}
+
+	@Override
+	public List<UserDocument> searchDocsInFolder(int userId, int docId, String target) {
+		return dao.searchDocsInFolder(userId, docId, target);
+	}
+
+
+	@Override
+	public List<UserDocument> filterDocsInFolder(int userId, int docId, String[] filters) {
+		return dao.filterDocsInFolder(userId, docId, filters);
+
+	}
+
 
 }

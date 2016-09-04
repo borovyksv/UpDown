@@ -153,6 +153,29 @@ public class AppController {
 		UserDocument doc = userDocumentService.findRootByUserId(userId);
 		return "redirect:/open-folder-"+userId+"-"+doc.getId();
 	}
+
+
+	@RequestMapping(value = { "/search-{userId}-{docId}" }, method = RequestMethod.GET)
+	public String search(@PathVariable int userId, @PathVariable int docId, @RequestParam("target") String target, ModelMap model) throws IOException {
+		User user = userService.findById(userId);
+		model.addAttribute("user", user);
+
+		FileBucket fileModel = new FileBucket();
+		model.addAttribute("fileBucket", fileModel);
+
+		List<UserDocument> folders = userDocumentService.searchFoldersInFolder(userId, docId, target);
+		model.addAttribute("folders", folders);
+
+		List<UserDocument> documents = userDocumentService.searchDocsInFolder(userId, docId, target);
+		model.addAttribute("documents", documents);
+
+
+		model.addAttribute("currentFolder", userDocumentService.findById(docId));
+
+		return "managedocuments";
+	}
+
+
 	
 
 	@RequestMapping(value = { "/download-document-{userId}-{docId}" }, method = RequestMethod.GET)
@@ -160,11 +183,27 @@ public class AppController {
 		UserDocument document = userDocumentService.findById(docId);
 		response.setContentType(document.getType());
         response.setContentLength(document.getContent().length);
-        response.setHeader("Content-Disposition","inline; filename=\"" + document.getName() +"\"");
- 
-        FileCopyUtils.copy(document.getContent(), response.getOutputStream());
+//        response.setHeader("Content-Disposition","inline; filename=\"" + document.getName() +"\"");     //open in browser
+		response.setHeader("Content-Disposition","attachment; filename=\"" + document.getName() +"\""); //download file
+
+
+		FileCopyUtils.copy(document.getContent(), response.getOutputStream());
  
  		return "redirect:/add-document-"+userId;
+	}
+
+	@RequestMapping(value = { "/preview-document-{userId}-{docId}" }, method = RequestMethod.GET)
+	public String previewDocument(@PathVariable int userId, @PathVariable int docId, HttpServletResponse response) throws IOException {
+		UserDocument document = userDocumentService.findById(docId);
+		response.setContentType(document.getType());
+		response.setContentLength(document.getContent().length);
+        response.setHeader("Content-Disposition","inline; filename=\"" + document.getName() +"\"");     //open in browser
+//		response.setHeader("Content-Disposition","attachment; filename=\"" + document.getName() +"\""); //download file
+
+
+		FileCopyUtils.copy(document.getContent(), response.getOutputStream());
+
+		return "redirect:/add-document-"+userId;
 	}
 
 
@@ -177,14 +216,33 @@ public class AppController {
 		FileBucket fileModel = new FileBucket();
 		model.addAttribute("fileBucket", fileModel);
 
-		List<UserDocument> documents = userDocumentService.findAllInFolder(userId, docId);
+		List<UserDocument> folders = userDocumentService.findFoldersInFolder(userId, docId);
+		model.addAttribute("folders", folders);
+
+		List<UserDocument> documents = userDocumentService.findDocsInFolder(userId, docId);
 		model.addAttribute("documents", documents);
 
 
 		model.addAttribute("currentFolder", userDocumentService.findById(docId));
 
+		return "managedocuments";
+
+	}
+
+	@RequestMapping(value = { "/filter-{userId}-{docId}" }, method = RequestMethod.GET)
+	public String openFolder(@PathVariable int userId, @RequestParam("filters") String[] filters, @PathVariable int docId, ModelMap model) throws IOException {
+		User user = userService.findById(userId);
+		model.addAttribute("user", user);
+
+		FileBucket fileModel = new FileBucket();
+		model.addAttribute("fileBucket", fileModel);
 
 
+		List<UserDocument> documents = userDocumentService.filterDocsInFolder(userId, docId, filters);
+		model.addAttribute("documents", documents);
+
+
+		model.addAttribute("currentFolder", userDocumentService.findById(docId));
 
 		return "managedocuments";
 

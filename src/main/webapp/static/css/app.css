@@ -1,10 +1,7 @@
-body, #mainWrapper {
-	height: 100%;
-	background-color:rgb(245, 245, 245);
-}
 
-body, .form-control{
-	font-size:12px!important;
+
+.checkbox {
+    color: #cfcccb;
 }
 
 .floatRight{
@@ -16,6 +13,11 @@ body, .form-control{
 	color:red;
 }
 
+.search {
+    margin-left: 5px;
+    margin-right: 5px
+}
+
 .uploadcontainer{
 	background-color: ghostwhite;
 	padding: 20px;
@@ -25,6 +27,9 @@ body, .form-control{
 	padding-left: 20px;
 }
 
+.dropdown-menu {
+    min-width: 383px;
+}
 .generic-container {
 
   width:70%;
@@ -40,4 +45,24 @@ body, .form-control{
 
 .custom-width {
     width: 80px !important;
+}
+
+/* layout.css Style */
+.upload-drop-zone {
+    height: 200px;
+    border-width: 2px;
+    margin-bottom: 20px;
+}
+
+/* skin.css Style*/
+.upload-drop-zone {
+    color: #ccc;
+    border-style: dashed;
+    border-color: #ccc;
+    line-height: 200px;
+    text-align: center
+}
+.upload-drop-zone.drop {
+    color: #222;
+    border-color: #222;
 }
