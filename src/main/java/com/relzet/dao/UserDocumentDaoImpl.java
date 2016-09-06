@@ -38,6 +38,11 @@ public class UserDocumentDaoImpl extends AbstractDao<Integer, UserDocument> impl
 	
 	public void deleteById(int id) {
 		UserDocument document =  getByKey(id);
+		if (document.isFolder()) {
+			for(UserDocument doc : findAllInFolder(document.getUser().getId(), id)){
+				delete(doc);
+			}
+		}
 		delete(document);
 	}
 
@@ -120,7 +125,7 @@ public class UserDocumentDaoImpl extends AbstractDao<Integer, UserDocument> impl
 			}
 		}
 
-		//// TODO: 02.09.2016 delete docId from parameters
+
 		for(UserDocument ud: findAllByUserId(userId)) {
 			for (String format : formats)
 			if (ud.getType().contains(format)) result.add(ud);

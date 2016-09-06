@@ -251,6 +251,7 @@ public class AppController {
 	@RequestMapping(value = { "/delete-document-{userId}-{docId}" }, method = RequestMethod.GET)
 	public String deleteDocument(@PathVariable int userId, @PathVariable int docId) {
 		userDocumentService.deleteById(docId);
+
 		return "redirect:/add-document-"+userId;
 	}
 

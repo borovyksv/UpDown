@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html lang="en">
 
@@ -97,18 +98,26 @@
                     </form>
                 </li>
                 <li>
-                    <a href="<c:url value='/add-document-${user.id}' />"><span class="glyphicon glyphicon-download-alt"></span> ROOT Folder</a>
+                    <a href="<c:url value='/add-document-${user.id}' />"><span
+                            class="glyphicon glyphicon-download-alt"></span> ROOT Folder</a>
                 </li>
                 <li>
-                    <a href="#" type="button"  data-toggle="modal" data-target="#upload"> <span class="glyphicon glyphicon-upload"></span> Upload a file</a>
+                    <a href="#" type="button" data-toggle="modal" data-target="#upload"> <span
+                            class="glyphicon glyphicon-upload"></span> Upload a file</a>
                 </li>
                 <li>
-                    <a href="#" type="button"  data-toggle="modal" data-target="#new_folder"><span class="glyphicon glyphicon-folder-close"></span> Create new Folder </a>
+                    <a href="#" type="button" data-toggle="modal" data-target="#new_folder"><span
+                            class="glyphicon glyphicon-folder-close"></span> Create new Folder </a>
+                </li>
+                <li>
+                    <a href="#" type="button" data-toggle="modal" data-target="#top"><span
+                            class="glyphicon glyphicon-folder-close"></span> TOP files </a>
                 </li>
 
 
                 <li>
-                    <a href="javascript:;" data-toggle="collapse" data-target="#demo"><span class="glyphicon glyphicon-check"></span> Filters <i
+                    <a href="javascript:;" data-toggle="collapse" data-target="#demo"><span
+                            class="glyphicon glyphicon-check"></span> Filters <i
                             class="fa fa-fw fa-caret-down"></i></a>
                     <div id="demo" class="collapse container">
                         <form action="/filter-${user.id}-${currentFolder.id}">
@@ -136,8 +145,11 @@
                             </div>
                             <input type="submit" value="search">
                         </form>
+
                     </div>
+
                 </li>
+
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -147,8 +159,16 @@
     <div id="page-wrapper">
 
         <div class="container-fluid">
+            <div class="divider"></div>
 
-            <div class="row">
+            <c:if test="${fn:length(folders) gt 0}">
+            <div class="alert alert-success" data-toggle="collapse" data-target="#folders-collapse"
+                 aria-expanded="false" aria-controls="collapseExample">
+                <strong><span class="glyphicon glyphicon-plus"></span> Folders </strong>
+            </div>
+            <div class="row collapse in" id="folders-collapse">
+                </c:if>
+
                 <!-- Page Heading -->
                 <c:forEach items="${folders}" var="doc" varStatus="counter">
 
@@ -168,9 +188,11 @@
                             <a href="#">
                                 <div class="panel-footer">
                                     <a href="<c:url value='/delete-document-${user.id}-${doc.id}' />"
-                                       class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+                                       class="btn btn-default btn-sm"><span class="glyphicon glyphicon-trash"></span>
+                                        Delete</a>
                                     <a href="<c:url value='/open-folder-${user.id}-${doc.id}' />"
-                                       class="btn btn-success btn-sm pull-right">Open <span class="glyphicon glyphicon-folder-open"></span></a>
+                                       class="btn btn-default btn-sm pull-right">Open <span
+                                            class="glyphicon glyphicon-folder-open"></span></a>
                                 </div>
                             </a>
                         </div>
@@ -178,24 +200,39 @@
                 </c:forEach>
             </div>
             <!-- /.row -->
-            <div class="divider"></div>
-            <div class="row">
+
+            <c:choose>
+            <c:when test="${fn:length(documents) gt 0}">
+            <div class="alert alert-success" data-toggle="collapse" data-target="#files-collapse" aria-expanded="false"
+                 aria-controls="collapseExample">
+                <strong><span class="glyphicon glyphicon-plus"></span> Files</strong>
+            </div>
+            <div class="row collapse" id="files-collapse">
+
+                </c:when>
+
+                <c:otherwise>
+                    <div class="alert alert-success">
+                        <h3>No files here</h3>
+                    </div>
+                </c:otherwise>
+                </c:choose>
                 <c:forEach items="${documents}" var="doc" varStatus="counter">
 
                     <div class="col-lg-3 col-md-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
 
-                                <%--<div class="row">--%>
+                                    <%--<div class="row">--%>
                                     <%--<div class="collapse" id="collapseExample${doc.id}">--%>
-                                        <%--<div class="well">--%>
-                                            <%--<div class="embed-responsive embed-responsive-16by9">--%>
-                                                <%--<iframe class="embed-responsive-item"--%>
-                                                        <%--src="<c:url value='/preview-document-${user.id}-${doc.id}' />"></iframe>--%>
-                                            <%--</div>--%>
-                                        <%--</div>--%>
+                                    <%--<div class="well">--%>
+                                    <%--<div class="embed-responsive embed-responsive-16by9">--%>
+                                    <%--<iframe class="embed-responsive-item"--%>
+                                    <%--src="<c:url value='/preview-document-${user.id}-${doc.id}' />"></iframe>--%>
                                     <%--</div>--%>
-                                <%--</div>--%>
+                                    <%--</div>--%>
+                                    <%--</div>--%>
+                                    <%--</div>--%>
                                 <div class="row">
                                     <div class="col-xs-3">
                                         <i class="fa fa-tasks fa-5x"></i>
@@ -215,16 +252,20 @@
                                 <div class="panel-footer  text-center">
                                     <div class=" text-center">
                                         <a href="<c:url value='/delete-document-${user.id}-${doc.id}' />"
-                                           class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+                                           class="btn btn-default btn-sm"><span
+                                                class="glyphicon glyphicon-trash"></span> Delete</a>
 
-                                        <a class="btn btn-primary btn-sm" role="button" data-toggle="collapse" href="#collapseExample${doc.id}" aria-expanded="false" aria-controls="collapseExample">
+                                        <a class="btn btn-default btn-sm" role="button" data-toggle="collapse"
+                                           href="#collapseExample${doc.id}" aria-expanded="false"
+                                           aria-controls="collapseExample">
                                             Preview
-                                            </a>
+                                        </a>
 
 
                                         <a target="_blank"
                                            href="<c:url value='/download-document-${user.id}-${doc.id}' />"
-                                           class="btn btn-success btn-sm">Download <span class="glyphicon glyphicon-download-alt"></span></a>
+                                           class="btn btn-default btn-sm">Download <span
+                                                class="glyphicon glyphicon-download-alt"></span></a>
 
                                     </div>
 
@@ -242,79 +283,126 @@
     </div>
     <!-- /#wrapper -->
 
+
+</div>
+
     <!-- Modal -->
-    <div class="modal fade" id="upload" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header text-center" >
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="text-center"><span class="glyphicon glyphicon-upload"></span> Upload a document</h4>
-                </div>
-                <div class="modal-body" >
-                    <form:form role="form" method="POST" modelAttribute="fileBucket"
-                               enctype="multipart/form-data"
-                               action="/add-document-${user.id}-${currentFolder.id}"
-                               class="form-vertical">
-                        <div class="form-group text-center">
-
-                            <form:input type="file" path="file" id="file"
-                                        class="form-control input-sm"/>
-                        </div>
-                        <button type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-upload"></span>Upload</button>
-                    </form:form>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-danger btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
-                </div>
+<div class="modal fade" id="upload" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="text-center"><span class="glyphicon glyphicon-upload"></span> Upload a document</h4>
             </div>
+            <div class="modal-body">
+                <form:form role="form" method="POST" modelAttribute="fileBucket"
+                           enctype="multipart/form-data"
+                           action="/add-document-${user.id}-${currentFolder.id}"
+                           class="form-vertical">
+                    <div class="form-group text-center">
 
+
+                        <label class="btn btn-default " for="my-file-selector">
+                            <form:input type="file" path="file" id="my-file-selector" style="display:none;"
+                                        class="form-control input-sm"
+                                        onchange="$('#upload-file-info').html($(this).val().substring(12));"/>
+                            Browse
+                        </label>
+                        <span class='label label-info' id="upload-file-info"></span>
+
+
+                    </div>
+                    <button type="submit" class="btn btn-success btn-block">Upload</button>
+                </form:form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-danger btn-default" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-remove"></span>Cancel
+                </button>
+            </div>
         </div>
+
     </div>
-    <div class="modal fade" id="new_folder" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header text-center" >
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="text-center"><span class="glyphicon glyphicon-upload"></span> Create new Folder</h4>
-                </div>
-                <div class="modal-body" >
-                    <form role="form" method="POST"
-                          action="/create-folder-${user.id}-${currentFolder.id}">
-                        <div class="form-group text-center">
-
-                            <input class="form-control input-sm" type="text" required
-                                   placeholder="Folder name"
-                                   name="folderName">
-                        </div>
-                        <button type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-upload"></span>Create</button>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-danger btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                </div>
+</div>
+<div class="modal fade" id="new_folder" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="text-center"><span class="glyphicon glyphicon-folder-close"></span> Create new Folder
+                </h4>
             </div>
+            <div class="modal-body">
+                <form role="form" method="POST"
+                      action="/create-folder-${user.id}-${currentFolder.id}">
+                    <div class="form-group text-center">
 
+                        <input class="form-control input-sm" type="text" required
+                               placeholder="Folder name"
+                               name="folderName">
+                    </div>
+                    <button type="submit" class="btn btn-success btn-block"> Create</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-danger btn-default" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-remove"></span> Cancel
+                </button>
+            </div>
         </div>
+
+    </div>
+</div>
+<div class="modal fade" id="top" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="text-center"><span class="glyphicon glyphicon-folder-close"></span> Create new Folder
+                </h4>
+            </div>
+            <div class="modal-body">
+                <dl>
+                    <dt>
+                        Browser market share June 2015
+                    </dt>
+                    <dd class="percentage percentage-11"><span class="text">IE 11: 11.33%</span></dd>
+                    <dd class="percentage percentage-49"><span class="text">Chrome: 49.77%</span></dd>
+                    <dd class="percentage percentage-16"><span class="text">Firefox: 16.09%</span></dd>
+                    <dd class="percentage percentage-5"><span class="text">Safari: 5.41%</span></dd>
+                    <dd class="percentage percentage-2"><span class="text">Opera: 1.62%</span></dd>
+                    <dd class="percentage percentage-2"><span class="text">Android 4.4: 2%</span></dd>
+                </dl>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-danger btn-default" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-remove"></span> Cancel
+                </button>
+            </div>
+        </div>
+
     </div>
 </div>
 
+<!-- jQuery -->
+<script src="/static/js/jquery.js"></script>
 
 
-    <!-- jQuery -->
-    <script src="/static/js/jquery.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/bootstrap-filestyle.min.js"></script>
+<script src="/static/js/app.js"></script>
 
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="/static/js/bootstrap.min.js"></script>
-    <script src="/static/js/app.js"></script>
+<!-- Morris Charts JavaScript -->
+<script src="http://explorercanvas.googlecode.com/svn/trunk/excanvas.js"></script>
 
-
-    <!-- Morris Charts JavaScript -->
-    <script src="/static/js/plugins/morris/raphael.min.js"></script>
-    <script src="/static/js/plugins/morris/morris.min.js"></script>
-    <script src="/static/js/plugins/morris/morris-data.js"></script>
+<script src="/static/js/plugins/morris/raphael.min.js"></script>
+<script src="/static/js/plugins/morris/morris.min.js"></script>
+<script src="/static/js/plugins/morris/morris-data.js"></script>
 
 </body>
 
