@@ -109,10 +109,7 @@
                     <a href="#" type="button" data-toggle="modal" data-target="#new_folder"><span
                             class="glyphicon glyphicon-folder-close"></span> Create new Folder </a>
                 </li>
-                <li>
-                    <a href="#" type="button" data-toggle="modal" data-target="#top"><span
-                            class="glyphicon glyphicon-folder-close"></span> TOP files </a>
-                </li>
+
 
 
                 <li>
@@ -148,6 +145,38 @@
 
                     </div>
 
+                </li>
+                <li>
+                    <a href="javascript:;" data-toggle="collapse" data-target="#demo1"><span
+                            class="glyphicon glyphicon-check"></span> TOP files <i
+                            class="fa fa-fw fa-caret-down"></i></a>
+                    <div id="demo1" class="collapse in container row">
+                        <!-- DONUT CHART BLOCK (LEFT-CONTAINER) -->
+                        <div class="donut-chart-block block">
+                            <div class="donut-chart">
+
+                                <div id="porcion1" class="recorte"><div class="quesito ios" data-rel="21"></div></div>
+                                <div id="porcion2" class="recorte"><div class="quesito mac" data-rel="10"></div></div>
+                                <div id="porcion3" class="recorte"><div class="quesito win" data-rel="31"></div></div>
+                                <div id="porcionFin" class="recorte"><div class="quesito linux" data-rel="9"></div></div>
+                                <!-- FIN AÑADIDO GRÄFICO -->
+                                <p class="center-date"><br><span class="scnd-font-color"></span></p>
+                            </div>
+                            <ul class="os-percentages">
+                                <li>
+                                    <p class="ios os scnd-font-color"> &nbsp;IOS 21 %</p>
+                                </li>
+                                <li>
+                                    <p class="mac os scnd-font-color"> &nbsp;Mac</p>
+                                </li>
+                                <li>
+                                    <p class="linux os scnd-font-color"> &nbsp;Linux</p>
+                                </li>
+                                <li>
+                                    <p class="win os scnd-font-color"> &nbsp;Win</p>
+                                </li>
+                            </ul>
+                        </div>
                 </li>
 
             </ul>
