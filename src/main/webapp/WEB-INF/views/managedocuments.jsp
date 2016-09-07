@@ -32,6 +32,7 @@
 
     <!-- Custom Fonts -->
     <link href="<c:url value='/static/font-awesome/css/font-awesome.min.css' />" rel="stylesheet"></link>
+    <link href="<c:url value='/static/font-awesome/css/font-awesome.min.css' />" rel="stylesheet"></link>
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -40,6 +41,8 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <c:set var="types" value="${fn:split('image,text,pdf', ',')}" scope="application"/>
+    <c:set var="disabled" value="true"/>
 
 
 </head>
@@ -60,7 +63,10 @@
             </button>
 
 
-            <a class="navbar-brand" href="managedocuments.jsp"><i class="glyphicon glyphicon-hdd"></i> Your Disc</a>
+            <a class="navbar-brand" href="managedocuments.jsp"><i class="glyphicon glyphicon-hdd"></i> Your Disc
+            <c:set var="string" value="${currentFolder.description}"/>
+            <span style="margin-left: 60px" class="glyphicon glyphicon-th-list"></span>  Directory: ${fn:replace(string, '.', '/')}
+            </a>
         </div>
         <!-- Top Menu Items -->
         <ul class="nav navbar-right top-nav">
@@ -111,7 +117,6 @@
                 </li>
 
 
-
                 <li>
                     <a href="javascript:;" data-toggle="collapse" data-target="#demo"><span
                             class="glyphicon glyphicon-check"></span> Filters <i
@@ -151,32 +156,7 @@
                             class="glyphicon glyphicon-check"></span> TOP files <i
                             class="fa fa-fw fa-caret-down"></i></a>
                     <div id="demo1" class="collapse in container row">
-                        <!-- DONUT CHART BLOCK (LEFT-CONTAINER) -->
-                        <div class="donut-chart-block block">
-                            <div class="donut-chart">
-
-                                <div id="porcion1" class="recorte"><div class="quesito ios" data-rel="21"></div></div>
-                                <div id="porcion2" class="recorte"><div class="quesito mac" data-rel="10"></div></div>
-                                <div id="porcion3" class="recorte"><div class="quesito win" data-rel="31"></div></div>
-                                <div id="porcionFin" class="recorte"><div class="quesito linux" data-rel="9"></div></div>
-                                <!-- FIN AÑADIDO GRÄFICO -->
-                                <p class="center-date"><br><span class="scnd-font-color"></span></p>
-                            </div>
-                            <ul class="os-percentages">
-                                <li>
-                                    <p class="ios os scnd-font-color"> &nbsp;IOS 21 %</p>
-                                </li>
-                                <li>
-                                    <p class="mac os scnd-font-color"> &nbsp;Mac</p>
-                                </li>
-                                <li>
-                                    <p class="linux os scnd-font-color"> &nbsp;Linux</p>
-                                </li>
-                                <li>
-                                    <p class="win os scnd-font-color"> &nbsp;Win</p>
-                                </li>
-                            </ul>
-                        </div>
+                    </div>
                 </li>
 
             </ul>
@@ -189,6 +169,11 @@
 
         <div class="container-fluid">
             <div class="divider"></div>
+            <%--<div class="alert alert-info"--%>
+                 <%--aria-expanded="false" >--%>
+                <%--<c:set var="string" value="${currentFolder.description}"/>--%>
+                <%--<span class="glyphicon glyphicon-th-list"></span> Directory: ${fn:replace(string, '.', '/')}--%>
+            <%--</div>--%>
 
             <c:if test="${fn:length(folders) gt 0}">
             <div class="alert alert-success" data-toggle="collapse" data-target="#folders-collapse"
@@ -199,6 +184,7 @@
                 </c:if>
 
                 <!-- Page Heading -->
+
                 <c:forEach items="${folders}" var="doc" varStatus="counter">
 
                     <div class="col-lg-2 col-md-3">
@@ -236,12 +222,12 @@
                  aria-controls="collapseExample">
                 <strong><span class="glyphicon glyphicon-plus"></span> Files</strong>
             </div>
-            <div class="row collapse" id="files-collapse">
+            <div class="row collapse in" id="files-collapse">
 
                 </c:when>
 
                 <c:otherwise>
-                    <div class="alert alert-success">
+                    <div class="alert alert-danger">
                         <h3>No files here</h3>
                     </div>
                 </c:otherwise>
@@ -249,19 +235,30 @@
                 <c:forEach items="${documents}" var="doc" varStatus="counter">
 
                     <div class="col-lg-3 col-md-6">
+
                         <div class="panel panel-default">
                             <div class="panel-heading">
-
-                                    <%--<div class="row">--%>
-                                    <%--<div class="collapse" id="collapseExample${doc.id}">--%>
-                                    <%--<div class="well">--%>
-                                    <%--<div class="embed-responsive embed-responsive-16by9">--%>
-                                    <%--<iframe class="embed-responsive-item"--%>
-                                    <%--src="<c:url value='/preview-document-${user.id}-${doc.id}' />"></iframe>--%>
-                                    <%--</div>--%>
-                                    <%--</div>--%>
-                                    <%--</div>--%>
-                                    <%--</div>--%>
+                                <c:set var="type" value="${doc.type}"/>
+                                <c:forEach items="${types}" var="target" varStatus="counter">
+                                <c:choose>
+                                <c:when test="${fn:contains(type, target)}">
+                                    <div class="row">
+                                        <div class="collapse" id="collapseExample${doc.id}">
+                                            <div class="well">
+                                                <div class="embed-responsive embed-responsive-16by9">
+                                                    <iframe class="embed-responsive-item"
+                                                            src="<c:url value='/preview-document-${user.id}-${doc.id}' />"></iframe>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <c:set var="disabled" value="false"/>
+                                    </c:when>
+                                    </c:choose>
+                                    <%--<c:if test="${fn:contains(type, target)}">--%>
+                                        <%----%>
+                                    <%--</c:if>--%>
+                                </c:forEach>
                                 <div class="row">
                                     <div class="col-xs-3">
                                         <i class="fa fa-tasks fa-5x"></i>
@@ -276,6 +273,7 @@
                                             ${doc.type}
                                     </div>
                                 </div>
+
                             </div>
                             <a href="#">
                                 <div class="panel-footer  text-center">
@@ -283,12 +281,14 @@
                                         <a href="<c:url value='/delete-document-${user.id}-${doc.id}' />"
                                            class="btn btn-default btn-sm"><span
                                                 class="glyphicon glyphicon-trash"></span> Delete</a>
+                                            <c:if test="${disabled eq false}">
 
-                                        <a class="btn btn-default btn-sm" role="button" data-toggle="collapse"
+                                        <a class="btn btn-default btn-sm" id="${doc.id}" role="button" data-toggle="collapse"
                                            href="#collapseExample${doc.id}" aria-expanded="false"
                                            aria-controls="collapseExample">
                                             Preview
                                         </a>
+                                            </c:if>
 
 
                                         <a target="_blank"
@@ -302,7 +302,10 @@
                             </a>
                         </div>
                     </div>
+                    <c:set var="disabled" value="true"/>
                 </c:forEach>
+
+
             </div>
             <!-- /.container-fluid -->
 
@@ -315,7 +318,7 @@
 
 </div>
 
-    <!-- Modal -->
+<!-- Modal -->
 <div class="modal fade" id="upload" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
@@ -374,37 +377,6 @@
                     </div>
                     <button type="submit" class="btn btn-success btn-block"> Create</button>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-danger btn-default" data-dismiss="modal"><span
-                        class="glyphicon glyphicon-remove"></span> Cancel
-                </button>
-            </div>
-        </div>
-
-    </div>
-</div>
-<div class="modal fade" id="top" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header text-center">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="text-center"><span class="glyphicon glyphicon-folder-close"></span> Create new Folder
-                </h4>
-            </div>
-            <div class="modal-body">
-                <dl>
-                    <dt>
-                        Browser market share June 2015
-                    </dt>
-                    <dd class="percentage percentage-11"><span class="text">IE 11: 11.33%</span></dd>
-                    <dd class="percentage percentage-49"><span class="text">Chrome: 49.77%</span></dd>
-                    <dd class="percentage percentage-16"><span class="text">Firefox: 16.09%</span></dd>
-                    <dd class="percentage percentage-5"><span class="text">Safari: 5.41%</span></dd>
-                    <dd class="percentage percentage-2"><span class="text">Opera: 1.62%</span></dd>
-                    <dd class="percentage percentage-2"><span class="text">Android 4.4: 2%</span></dd>
-                </dl>
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-danger btn-default" data-dismiss="modal"><span

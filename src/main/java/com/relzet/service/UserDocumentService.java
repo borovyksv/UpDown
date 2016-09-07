@@ -30,4 +30,5 @@ public interface UserDocumentService {
 
 
 	List<UserDocument> filterDocsInFolder(int userId, int docId, String[] filters);
+
 }

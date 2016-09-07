@@ -29,4 +29,5 @@ public interface UserDocumentDao {
 	List<UserDocument> searchDocsInFolder(int userId, int docId, String target);
 
 	List<UserDocument> filterDocsInFolder(int userId, int docId, String[] filters);
+
 }

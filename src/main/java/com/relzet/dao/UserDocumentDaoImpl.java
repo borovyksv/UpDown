@@ -5,9 +5,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Repository("userDocumentDao")
 public class UserDocumentDaoImpl extends AbstractDao<Integer, UserDocument> implements UserDocumentDao{
@@ -90,7 +88,7 @@ public class UserDocumentDaoImpl extends AbstractDao<Integer, UserDocument> impl
 
 	@Override
 	public List<UserDocument> searchFoldersInFolder(int userId, int docId, String target) {
-		List<UserDocument> result = new ArrayList<UserDocument>();
+		List<UserDocument> result = new ArrayList<>();
 
 		for(UserDocument ud: findAllInFolder(userId, docId)) {
 			if (ud.getType().equals("folder")&&ud.getName().contains(target)) result.add(ud);
@@ -135,5 +133,18 @@ public class UserDocumentDaoImpl extends AbstractDao<Integer, UserDocument> impl
 
 
 	}
+
+	public List<UserDocument> getSortedDocs(int userId) {
+		List<UserDocument> result = findAllByUserId(userId);
+
+		Collections.sort(result, new Comparator<UserDocument>() {
+			@Override
+			public int compare(UserDocument o1, UserDocument o2) {
+				return o2.getContent().length - o1.getContent().length;
+			}
+		});
+		return result;
+	}
+
 
 }

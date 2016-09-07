@@ -6,7 +6,6 @@ import com.relzet.model.UserDocument;
 import com.relzet.service.UserDocumentService;
 import com.relzet.service.UserService;
 import com.relzet.util.FileValidator;
-import com.relzet.util.TopFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -223,8 +222,6 @@ public class AppController {
 		List<UserDocument> documents = userDocumentService.findDocsInFolder(userId, docId);
 		model.addAttribute("documents", documents);
 
-		List<TopFile> top =userDocumentService.getTopFiles(userId);
-		model.addAttribute("top", top);
 
 
 		model.addAttribute("currentFolder", userDocumentService.findById(docId));
