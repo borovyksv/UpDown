@@ -22,6 +22,7 @@
 					        <th>Last Name</th>
 					        <th>Email</th>
 					        <th>SSO ID</th>
+					        <th width="150"></th>
 					        <th width="100"></th>
 					        <th width="100"></th>
 						</tr>
@@ -33,8 +34,10 @@
 							<td>${user.lastName}</td>
 							<td>${user.email}</td>
 							<td>${user.ssoId}</td>
+							<td><a href="<c:url value='/add-document-${user.id}' />" class="btn btn-info " style="width: 87px">Your Disc</a></td>
 							<td><a href="<c:url value='/edit-user-${user.ssoId}' />" class="btn btn-success custom-width">edit</a></td>
 							<td><a href="<c:url value='/delete-user-${user.ssoId}' />" class="btn btn-danger custom-width">delete</a></td>
+
 						</tr>
 					</c:forEach>
 		    		</tbody>

@@ -1,5 +1,7 @@
+
 <!DOCTYPE html>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
+<%--<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>--%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -65,7 +67,7 @@
 
             <a class="navbar-brand" href="managedocuments.jsp"><i class="glyphicon glyphicon-hdd"></i> Your Disc
             <c:set var="string" value="${currentFolder.description}"/>
-            <span style="margin-left: 60px" class="glyphicon glyphicon-th-list"></span>  Directory: ${fn:replace(string, '.', '/')}
+            <span style="margin-left: 125px" class="glyphicon glyphicon-th-list"></span>  Directory: ${fn:replace(string, '.', '/')}
             </a>
         </div>
         <!-- Top Menu Items -->
@@ -73,21 +75,19 @@
 
 
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> ${user.firstName} ${user.lastName} <b
                         class="caret"></b></a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
+                        <a href="#"><i class="fa fa-fw fa-user" style="color: red;"></i> Profile</a>
                     </li>
+
                     <li>
-                        <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                        <a href="<c:url value='/edit-user-${user.ssoId}' />"><i class="fa fa-fw fa-gear"></i> Settings</a>
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                        <a href="#" style="color: red;"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
                     </li>
                 </ul>
             </li>
@@ -104,8 +104,7 @@
                     </form>
                 </li>
                 <li>
-                    <a href="<c:url value='/add-document-${user.id}' />"><span
-                            class="glyphicon glyphicon-download-alt"></span> ROOT Folder</a>
+                    <a href="<c:url value='/add-document-${user.id}' />"><i class="fa fa-home fa-3"></i> ROOT Folder</a>
                 </li>
                 <li>
                     <a href="#" type="button" data-toggle="modal" data-target="#upload"> <span
@@ -152,8 +151,8 @@
 
                 </li>
                 <li>
-                    <a href="javascript:;" data-toggle="collapse" data-target="#demo1"><span
-                            class="glyphicon glyphicon-check"></span> TOP files <i
+                    <a href="javascript:;" data-toggle="collapse" data-target="#demo1" style="color: red;"><span
+                            class="glyphicon glyphicon-check" ></span> TOP files (coming soon) <i
                             class="fa fa-fw fa-caret-down"></i></a>
                     <div id="demo1" class="collapse in container row">
                     </div>
@@ -261,7 +260,10 @@
                                 </c:forEach>
                                 <div class="row">
                                     <div class="col-xs-3">
-                                        <i class="fa fa-tasks fa-5x"></i>
+                                        <%--todo HEHEHFHEHHEHEHEHfFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEHEH--%>
+
+                                        <%--<i class="${doc.glyphicon}"></i>--%>
+                                        <i class="fa fa-file${doc.glyphicon}o fa-5x"></i>
 
                                     </div>
                                     <div class="col-xs-9 text-right">
@@ -269,7 +271,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-offset-1">
+                                    <div class="col-lg-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-offset-1 text-center">
                                             ${doc.type}
                                     </div>
                                 </div>

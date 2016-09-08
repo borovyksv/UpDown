@@ -307,7 +307,13 @@ public class AppController {
 		UserDocument document = new UserDocument();
 		
 		MultipartFile multipartFile = fileBucket.getFile();
-
+		if (multipartFile.getContentType().contains("video")) document.setGlyphicon("-video-"); else
+		if (multipartFile.getContentType().contains("image")) document.setGlyphicon("-picture-"); else
+		if (multipartFile.getContentType().contains("audio")) document.setGlyphicon("-audio-"); else
+		if (multipartFile.getContentType().contains("zip")) document.setGlyphicon("-zip-"); else
+		if (multipartFile.getContentType().contains("pdf")) document.setGlyphicon("-pdf-"); else
+		if (multipartFile.getContentType().contains("text")|| multipartFile.getContentType().contains("officedocument")||multipartFile.getContentType().contains("msword")) document.setGlyphicon("-text-"); else
+			document.setGlyphicon("-");
 
 		
 		document.setName(multipartFile.getOriginalFilename());

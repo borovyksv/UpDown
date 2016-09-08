@@ -1,16 +1,6 @@
 package com.relzet.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "USER_DOCUMENT")
@@ -30,6 +20,17 @@ public class UserDocument {
 
     @Column(name = "type", length = 100, nullable = false)
     private String type;
+
+    public String getGlyphicon() {
+        return glyphicon;
+    }
+
+    @Column(name = "glyphicon", length = 100)
+    private String glyphicon;
+
+    public void setGlyphicon(String glyphicon) {
+        this.glyphicon = glyphicon;
+    }
 
     @Lob
     @Basic(fetch = FetchType.LAZY)

@@ -116,7 +116,7 @@ public class UserDocumentDaoImpl extends AbstractDao<Integer, UserDocument> impl
 		//here you can change filter formats
 		for (String filter : filters) {
 			switch (filter) {
-				case "documents": formats.addAll(new ArrayList<>(Arrays.asList("text", "plain"))); break;
+				case "documents": formats.addAll(new ArrayList<>(Arrays.asList("text", "plain", "pdf", "officedocument", "msword"))); break;
 				case "pictures": formats.addAll(new ArrayList<>(Arrays.asList("image")));break;
 				case "videos": formats.addAll(new ArrayList<>(Arrays.asList("video")));break;
 				case "zip": formats.addAll(new ArrayList<>(Arrays.asList("zip")));break;
