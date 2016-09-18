@@ -16,6 +16,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -208,8 +209,12 @@ public class AppController {
 
 
 	//// TODO: 22.08.2016
+	//// TODO: 22.08.2016
 	@RequestMapping(value = { "/open-folder-{userId}-{docId}" }, method = RequestMethod.GET)
-	public String openFolder(@PathVariable int userId, @PathVariable int docId, ModelMap model) throws IOException {
+	public String openFolder(@PathVariable int userId, @PathVariable int docId, ModelMap model, @ModelAttribute("folderNameError") String folderNameError, @ModelAttribute("folderUniqueError") String folderUniqueError) throws IOException {
+		model.addAttribute("folderNameError", folderNameError);
+		model.addAttribute("folderUniqueError", folderUniqueError);
+
 		User user = userService.findById(userId);
 		model.addAttribute("user", user);
 
@@ -284,24 +289,32 @@ public class AppController {
 	// TODO: 21.08.2016
 
 	@RequestMapping(value = { "/create-folder-{userId}-{docId}" }, method = RequestMethod.POST)
-	public String createFolder(ModelMap model, @PathVariable int userId, @PathVariable int docId, @RequestParam("folderName") String folderName) throws IOException{
+	public String createFolder(ModelMap model, @PathVariable int userId, @PathVariable int docId, @RequestParam("folderName") String folderName, RedirectAttributes redirectAttrs) throws IOException{
+
+		if (folderName.contains(".")||folderName.contains("/")||folderName.contains("\\")){
+			redirectAttrs.addFlashAttribute("folderNameError", "A Foldername cannot contain any of the following characters:\n" +
+					"\\ / .");
+			return "redirect:/open-folder-"+userId+"-"+docId;
+		}
+		if (userDocumentService.checkFolderNameUnique(userId, docId, folderName)){
+			redirectAttrs.addFlashAttribute("folderUniqueError", "Folder \""+folderName+"\" already exists");
+			return "redirect:/open-folder-"+userId+"-"+docId;
+		}
+
+		User user = userService.findById(userId);
+		model.addAttribute("user", user);
 
 
+		userDocumentService.saveDocument(createFolder(
+				user,
+				folderName,
+				userDocumentService.findById(docId).getDescription()+"."+folderName
+		));
 
-			User user = userService.findById(userId);
-			model.addAttribute("user", user);
-
-
-			userDocumentService.saveDocument(createFolder(
-					user,
-					folderName,
-					userDocumentService.findById(docId).getDescription()+"."+folderName
-			));
-
-			return "redirect:/add-document-"+userId;
+//			return "redirect:/add-document-"+userId;
+		return "redirect:/open-folder-"+userId+"-"+docId;
 
 	}
-
 	private void saveDocument(FileBucket fileBucket, User user, int docId) throws IOException{
 		
 		UserDocument document = new UserDocument();

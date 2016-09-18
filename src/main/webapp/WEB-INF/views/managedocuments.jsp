@@ -34,7 +34,6 @@
 
     <!-- Custom Fonts -->
     <link href="<c:url value='/static/font-awesome/css/font-awesome.min.css' />" rel="stylesheet"></link>
-    <link href="<c:url value='/static/font-awesome/css/font-awesome.min.css' />" rel="stylesheet"></link>
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -113,6 +112,12 @@
                 <li>
                     <a href="#" type="button" data-toggle="modal" data-target="#new_folder"><span
                             class="glyphicon glyphicon-folder-close"></span> Create new Folder </a>
+                    <c:if test="${fn:length(folderNameError) gt 0}">
+                        <a href="#" type="button" style="color: red"><span class="glyphicon glyphicon-warning-sign"></span> ${folderNameError} </a>
+                    </c:if>
+                    <c:if test="${fn:length(folderUniqueError) gt 0}">
+                        <a href="#" type="button" style="color: red"><span class="glyphicon glyphicon-warning-sign"></span> ${folderUniqueError} </a>
+                    </c:if>
                 </li>
 
 
@@ -260,9 +265,6 @@
                                 </c:forEach>
                                 <div class="row">
                                     <div class="col-xs-3">
-                                        <%--todo HEHEHFHEHHEHEHEHfFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEHEH--%>
-
-                                        <%--<i class="${doc.glyphicon}"></i>--%>
                                         <i class="fa fa-file${doc.glyphicon}o fa-5x"></i>
 
                                     </div>

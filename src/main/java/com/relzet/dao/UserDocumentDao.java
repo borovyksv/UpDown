@@ -30,4 +30,5 @@ public interface UserDocumentDao {
 
 	List<UserDocument> filterDocsInFolder(int userId, int docId, String[] filters);
 
+	boolean checkFolderNameUnique(int userId, int docId, String folderName);
 }

@@ -70,6 +70,10 @@ public class UserDocumentServiceImpl implements UserDocumentService{
 
 	}
 
+	@Override
+	public boolean checkFolderNameUnique(int userId, int docId, String folderName) {
+		return dao.checkFolderNameUnique(userId, docId, folderName);
+	}
 
 
 }

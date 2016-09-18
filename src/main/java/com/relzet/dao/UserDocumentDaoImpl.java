@@ -134,6 +134,15 @@ public class UserDocumentDaoImpl extends AbstractDao<Integer, UserDocument> impl
 
 	}
 
+	@Override
+	public boolean checkFolderNameUnique(int userId, int docId, String folderName) {
+		for (UserDocument ud : findFoldersInFolder(userId, docId)) {
+			if (ud.getName().equals(folderName)) return true;
+		}
+		return false;
+	}
+
+
 	public List<UserDocument> getSortedDocs(int userId) {
 		List<UserDocument> result = findAllByUserId(userId);
 
