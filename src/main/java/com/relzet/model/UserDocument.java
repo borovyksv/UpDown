@@ -32,6 +32,13 @@ public class UserDocument {
         this.glyphicon = glyphicon;
     }
 
+    public String getInfo() {
+        return info;
+    }
+
+    @Transient
+    private String info;
+
     @Lob
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "content", nullable = false)
@@ -146,4 +153,7 @@ public class UserDocument {
     }
 
 
+    public void setInfo(String info) {
+        this.info = info;
+    }
 }

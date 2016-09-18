@@ -64,7 +64,7 @@
             </button>
 
 
-            <a class="navbar-brand" href="managedocuments.jsp"><i class="glyphicon glyphicon-hdd"></i> Your Disc
+            <a class="navbar-brand" href="<c:url value='/add-document-${user.id}' />"><i class="glyphicon glyphicon-hdd"></i> Your Disc
             <c:set var="string" value="${currentFolder.description}"/>
             <span style="margin-left: 125px" class="glyphicon glyphicon-th-list"></span>  Directory: ${fn:replace(string, '.', '/')}
             </a>
@@ -193,25 +193,34 @@
 
                     <div class="col-lg-2 col-md-3">
                         <div class="panel panel-primary">
-                            <div class="panel-heading">
+                            <div class="panel-heading cursor"
+                                 onmouseenter="this.setAttribute('style','background-color:#163b5a;')"
+                                 onmouseleave="this.setAttribute('style','background-color:#337ab7;')"
+                                 onclick="location.href = '<c:url value='/open-folder-${user.id}-${doc.id}' />';">
                                 <div class="row">
                                     <div class="col-xs-2">
-                                        <i class="fa fa-folder fa-3x"></i>
+                                        <i class="fa fa-folder fa-3x" ></i>
 
                                     </div>
                                     <div class="col-xs-10 text-right">
                                         <div>${doc.name}</div>
                                     </div>
+                                    <div class="col-xs-10 text-right">
+                                        <div class="info-text">${doc.info}</div>
+                                    </div>
                                 </div>
                             </div>
                             <a href="#">
                                 <div class="panel-footer">
-                                    <a href="<c:url value='/delete-document-${user.id}-${doc.id}' />"
-                                       class="btn btn-default btn-sm"><span class="glyphicon glyphicon-trash"></span>
+                                    <%--<a href="<c:url value='/open-folder-${user.id}-${doc.id}' />"--%>
+                                    <%--class="btn btn-default btn-sm ">Open <span--%>
+                                        <%--class="glyphicon glyphicon-folder-open"></span></a>--%>
+                                        <div class="row">
+
+                                        <a href="<c:url value='/delete-document-${user.id}-${doc.id}' />"
+                                       class="btn btn-default btn-sm pull-right" style="margin-right: 10px"><span class="glyphicon glyphicon-trash"></span>
                                         Delete</a>
-                                    <a href="<c:url value='/open-folder-${user.id}-${doc.id}' />"
-                                       class="btn btn-default btn-sm pull-right">Open <span
-                                            class="glyphicon glyphicon-folder-open"></span></a>
+                                            </div>
                                 </div>
                             </a>
                         </div>
