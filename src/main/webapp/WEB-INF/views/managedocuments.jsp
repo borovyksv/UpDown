@@ -259,7 +259,7 @@
                                         <div class="collapse" id="collapseExample${doc.id}">
                                             <div class="well">
                                                 <div class="embed-responsive embed-responsive-16by9">
-                                                    <iframe class="embed-responsive-item"
+                                                    <iframe class="embed-responsive-item cursor"
                                                             src="<c:url value='/preview-document-${user.id}-${doc.id}' />"></iframe>
                                                 </div>
                                             </div>
@@ -274,8 +274,10 @@
                                 </c:forEach>
                                 <div class="row">
                                     <div class="col-xs-3">
-                                        <i class="fa fa-file${doc.glyphicon}o fa-5x"></i>
-
+                                        <i title="Click to preview in new window" class="fa fa-file${doc.glyphicon}o fa-5x cursor"
+                                           onmouseenter="this.setAttribute('style','color:#337ab7;')"
+                                           onmouseleave="this.setAttribute('style','color:#333;')"
+                                           onclick="window.open('<c:url value='/preview-document-${user.id}-${doc.id}'/>','_blank')"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
                                         <div>${doc.name}</div>
@@ -283,7 +285,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-offset-1 text-center">
-                                            ${doc.type}
+                                            ${doc.type} | ${doc.info}
                                     </div>
                                 </div>
 
@@ -412,7 +414,7 @@
 
 
 <!-- Morris Charts JavaScript -->
-<script src="http://explorercanvas.googlecode.com/svn/trunk/excanvas.js"></script>
+<%--<script src="http://explorercanvas.googlecode.com/svn/trunk/excanvas.js"></script>--%>
 
 <script src="/static/js/plugins/morris/raphael.min.js"></script>
 <script src="/static/js/plugins/morris/morris.min.js"></script>
