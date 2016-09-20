@@ -39,19 +39,17 @@ public class UserDocumentDaoImpl extends AbstractDao<Integer, UserDocument> impl
 	}
 
 	
-	public void deleteById(int id) {
+	public void deleteFolderById(int id) {
 		UserDocument document =  getByKey(id);
-		if (document.isFolder()) {
 			for(UserDocument doc : findAllInFolder(document.getUser().getId(), id)){
 				delete(doc);
 			}
-		}
 		delete(document);
 	}
 
 	@Override
 	public void deleteById(int docId, int currentFolderId) {
-			UserDocument document = findById(currentFolderId);
+			UserDocument document = findById(docId);
 			UserDocument folder = findById(currentFolderId);
 
 			folder.setSize(folder.getSize()-document.getSize());

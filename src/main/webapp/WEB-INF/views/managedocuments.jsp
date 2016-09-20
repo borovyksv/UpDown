@@ -218,7 +218,7 @@
                                         <%--class="glyphicon glyphicon-folder-open"></span></a>--%>
                                         <div class="row">
 
-                                        <a href="<c:url value='/delete-document-${user.id}-${doc.id}' />"
+                                        <a href="<c:url value='/delete-folder-${user.id}-${doc.id}' />"
                                        class="btn btn-default btn-sm pull-right" style="margin-right: 10px"><span class="glyphicon glyphicon-trash"></span>
                                         Delete</a>
                                             </div>
@@ -294,7 +294,7 @@
                             <a href="#">
                                 <div class="panel-footer  text-center">
                                     <div class=" text-center">
-                                        <a href="<c:url value='/delete-document-${user.id}-${doc.id}' />"
+                                        <a href="<c:url value='/delete-document-${user.id}-${doc.id}-${currentFolder.id}' />"
                                            class="btn btn-default btn-sm"><span
                                                 class="glyphicon glyphicon-trash"></span> Delete</a>
                                             <c:if test="${disabled eq false}">
