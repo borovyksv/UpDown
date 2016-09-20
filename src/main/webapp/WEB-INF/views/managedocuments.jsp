@@ -180,7 +180,7 @@
             <%--</div>--%>
 
             <c:if test="${fn:length(folders) gt 0}">
-            <div class="alert alert-success" data-toggle="collapse" data-target="#folders-collapse"
+            <div class="alert alert-success cursor" data-toggle="collapse" data-target="#folders-collapse"
                  aria-expanded="false" aria-controls="collapseExample">
                 <strong><span class="glyphicon glyphicon-plus"></span> Folders </strong>
             </div>
@@ -206,7 +206,8 @@
                                         <div>${doc.name}</div>
                                     </div>
                                     <div class="col-xs-10 text-right">
-                                        <div class="info-text">${doc.info}</div>
+                                        <div class="info-text">${doc.filesCounter} files</div>
+                                        <div class="info-text">${doc.size} Kb</div>
                                     </div>
                                 </div>
                             </div>
@@ -231,7 +232,7 @@
 
             <c:choose>
             <c:when test="${fn:length(documents) gt 0}">
-            <div class="alert alert-success" data-toggle="collapse" data-target="#files-collapse" aria-expanded="false"
+            <div class="alert alert-success cursor" data-toggle="collapse" data-target="#files-collapse" aria-expanded="false"
                  aria-controls="collapseExample">
                 <strong><span class="glyphicon glyphicon-plus"></span> Files</strong>
             </div>
@@ -285,7 +286,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-offset-1 text-center">
-                                            ${doc.type} | ${doc.info}
+                                            ${doc.type} | ${doc.size} Kb
                                     </div>
                                 </div>
 

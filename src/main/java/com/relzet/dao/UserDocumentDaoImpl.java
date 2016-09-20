@@ -19,6 +19,11 @@ public class UserDocumentDaoImpl extends AbstractDao<Integer, UserDocument> impl
 	public void save(UserDocument document) {
 		persist(document);
 	}
+	public void updateDoc(UserDocument document) {
+		update(document);
+	}
+
+
 
 	
 	public UserDocument findById(int id) {
@@ -42,6 +47,19 @@ public class UserDocumentDaoImpl extends AbstractDao<Integer, UserDocument> impl
 			}
 		}
 		delete(document);
+	}
+
+	@Override
+	public void deleteById(int docId, int currentFolderId) {
+			UserDocument document = findById(currentFolderId);
+			UserDocument folder = findById(currentFolderId);
+
+			folder.setSize(folder.getSize()-document.getSize());
+			folder.setFilesCounter(folder.getFilesCounter()-1);
+
+			updateDoc(folder);
+			delete(document);
+
 	}
 
 	public List<UserDocument> findAllInFolder(int userId, int docId) {
@@ -70,13 +88,13 @@ public class UserDocumentDaoImpl extends AbstractDao<Integer, UserDocument> impl
 
 		for(UserDocument ud: findAllInFolder(userId, docId)) {
 			if (ud.getType().equals("folder")) {
-				int files = 0;
-				double size = 0d;
-				for(UserDocument doc : findDocsInFolder(userId, ud.getId())){
-					files++;
-					size+=doc.getContent().length;
-				}
-				ud.setInfo(files+" files<br>"+ ((int) (size / 1000))+" Kb");
+//				int files = 0;
+//				double size = 0d;
+//				for(UserDocument doc : findDocsInFolder(userId, ud.getId())){
+//					files++;
+//					size+=doc.getContent().length;
+//				}
+//				ud.setInfo(files+" files<br>"+ ((int) (size / 1000))+" Kb");
 				result.add(ud);
 			}
 		}
@@ -90,7 +108,7 @@ public class UserDocumentDaoImpl extends AbstractDao<Integer, UserDocument> impl
 
 		for(UserDocument ud: findAllInFolder(userId, docId)) {
 			if (!ud.getType().equals("folder")) {
-				ud.setInfo(ud.getContent().length/1000+" Kb");
+//				ud.setInfo(ud.getContent().length/1000+" Kb");
 				result.add(ud);
 			}
 		}
@@ -166,6 +184,7 @@ public class UserDocumentDaoImpl extends AbstractDao<Integer, UserDocument> impl
 		});
 		return result;
 	}
+
 
 
 }
