@@ -253,10 +253,19 @@ public class AppController {
 		return "managedocuments";
 
 	}
+	@RequestMapping(value = { "/delete-document-{userId}-{docId}-{currentFolderId}" }, method = RequestMethod.GET)
+	public String deleteDocument(@PathVariable int userId, @PathVariable int docId, @PathVariable int currentFolderId) {
 
-	@RequestMapping(value = { "/delete-document-{userId}-{docId}" }, method = RequestMethod.GET)
+		userDocumentService.deleteById(docId, currentFolderId);
+//		return "redirect:/add-document-"+userId;
+		return "redirect:/open-folder-"+userId+"-"+currentFolderId;
+
+	}
+
+	//@Delete folder
+	@RequestMapping(value = { "/delete-folder-{userId}-{docId}" }, method = RequestMethod.GET)
 	public String deleteDocument(@PathVariable int userId, @PathVariable int docId) {
-		userDocumentService.deleteById(docId);
+		userDocumentService.deleteFolderById(docId);
 
 		return "redirect:/add-document-"+userId;
 	}
@@ -282,7 +291,7 @@ public class AppController {
 
 			saveDocument(fileBucket, user, docId);
 
-			return "redirect:/add-document-"+userId;
+			return "redirect:/open-folder-"+userId+"-"+docId;
 		}
 	}
 
@@ -318,7 +327,8 @@ public class AppController {
 	private void saveDocument(FileBucket fileBucket, User user, int docId) throws IOException{
 		
 		UserDocument document = new UserDocument();
-		
+		UserDocument folder = userDocumentService.findById(docId);
+
 		MultipartFile multipartFile = fileBucket.getFile();
 		if (multipartFile.getContentType().contains("video")) document.setGlyphicon("-video-"); else
 		if (multipartFile.getContentType().contains("image")) document.setGlyphicon("-picture-"); else
@@ -328,12 +338,17 @@ public class AppController {
 		if (multipartFile.getContentType().contains("text")|| multipartFile.getContentType().contains("officedocument")||multipartFile.getContentType().contains("msword")) document.setGlyphicon("-text-"); else
 			document.setGlyphicon("-");
 
-		
+		folder.setSize(folder.getSize()+(int)multipartFile.getSize()/1000);
+		folder.setFilesCounter(folder.getFilesCounter()+1);
+
 		document.setName(multipartFile.getOriginalFilename());
-		document.setDescription(userDocumentService.findById(docId).getDescription()+"."+multipartFile.getOriginalFilename());
+		document.setDescription(folder.getDescription()+"."+multipartFile.getOriginalFilename());
 		document.setType(multipartFile.getContentType());
 		document.setContent(multipartFile.getBytes());
 		document.setUser(user);
+		document.setSize((int)multipartFile.getSize()/1000);
+
+		userDocumentService.updateDocument(folder);
 		userDocumentService.saveDocument(document);
 	}
 

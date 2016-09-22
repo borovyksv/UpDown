@@ -13,8 +13,10 @@ public interface UserDocumentService {
 	List<UserDocument> findAllByUserId(int id);
 	
 	void saveDocument(UserDocument document);
-	
-	void deleteById(int id);
+
+	void deleteFolderById(int id);
+
+	void deleteById(int docId, int currentFolderId);
 
 	List<UserDocument> findAllInFolder(int userId, int docId);
 
@@ -32,4 +34,7 @@ public interface UserDocumentService {
 	List<UserDocument> filterDocsInFolder(int userId, int docId, String[] filters);
 
 	boolean checkFolderNameUnique(int userId, int docId, String folderName);
+
+	void updateDocument(UserDocument document);
+
 }

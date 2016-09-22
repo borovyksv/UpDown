@@ -19,6 +19,7 @@ public class UserDocumentDaoImpl extends AbstractDao<Integer, UserDocument> impl
 	public void save(UserDocument document) {
 		persist(document);
 	}
+
 	public void updateDoc(UserDocument document) {
 		update(document);
 	}
@@ -61,52 +62,57 @@ public class UserDocumentDaoImpl extends AbstractDao<Integer, UserDocument> impl
 	}
 
 	public List<UserDocument> findAllInFolder(int userId, int docId) {
-		List<UserDocument> result = new ArrayList<UserDocument>();
+//		String description = findById(docId).getDescription();
+//		Criteria crit = createEntityCriteria();
+//		Criteria userCriteria = crit.createCriteria("user");
+//		userCriteria.add(Restrictions.eq("id", userId));
+//		crit.add(Restrictions.eqProperty("description", description+".name"));
+//		return (List<UserDocument>)crit.list();
 
-		for(UserDocument ud: findAllByUserId(userId)) {
-			if ((ud.getDescription()).equals(findById(docId).getDescription()+"."+ud.getName())) {
-				result.add(ud);
-			}
+		List<UserDocument> result = new ArrayList<>();
+
+			for(UserDocument ud: findAllByUserId(userId)) {
+				if ((ud.getDescription()).equals(findById(docId).getDescription()+"."+ud.getName())) {
+					result.add(ud);
+				}
 		}
 
 		return result;
 	}
 
 	public UserDocument findRootByUserId(int userId) {
-		for(UserDocument ud: findAllByUserId(userId)) {
-			if (ud.getName().equals("ROOT")) return ud;
 
-		}
-		return null;
+		Criteria crit = createEntityCriteria();
+		Criteria userCriteria = crit.createCriteria("user");
+		userCriteria.add(Restrictions.eq("id", userId));
+		crit.add(Restrictions.eq("name", "ROOT"));
+
+		return (UserDocument) crit.uniqueResult();
+//		for(UserDocument ud: findAllByUserId(userId)) {
+//			if (ud.getName().equals("ROOT")) return ud;
+//
+//		}
+//		return null;
 	}
 
 	@Override
 	public List<UserDocument> findFoldersInFolder(int userId, int docId) {
-		List<UserDocument> result = new ArrayList<UserDocument>();
+		List<UserDocument> result = new ArrayList<>();
 
 		for(UserDocument ud: findAllInFolder(userId, docId)) {
 			if (ud.getType().equals("folder")) {
-//				int files = 0;
-//				double size = 0d;
-//				for(UserDocument doc : findDocsInFolder(userId, ud.getId())){
-//					files++;
-//					size+=doc.getContent().length;
-//				}
-//				ud.setInfo(files+" files<br>"+ ((int) (size / 1000))+" Kb");
 				result.add(ud);
 			}
 		}
-
 		return result;
 	}
 
 	@Override
 	public List<UserDocument> findDocsInFolder(int userId, int docId) {
-		List<UserDocument> result = new ArrayList<UserDocument>();
+		List<UserDocument> result = new ArrayList<>();
 
 		for(UserDocument ud: findAllInFolder(userId, docId)) {
 			if (!ud.getType().equals("folder")) {
-//				ud.setInfo(ud.getContent().length/1000+" Kb");
 				result.add(ud);
 			}
 		}

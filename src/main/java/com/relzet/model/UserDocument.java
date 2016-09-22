@@ -20,30 +20,35 @@ public class UserDocument {
 
     @Column(name = "type", length = 100, nullable = false)
     private String type;
-
-    public String getGlyphicon() {
-        return glyphicon;
-    }
-
     @Column(name = "glyphicon", length = 100)
     private String glyphicon;
+    @Column(name = "size")
+    private int size;
 
-    public void setGlyphicon(String glyphicon) {
-        this.glyphicon = glyphicon;
+    public int getFilesCounter() {
+        return filesCounter;
     }
 
-    public String getInfo() {
-        return info;
+    public void setFilesCounter(int filesCounter) {
+        this.filesCounter = filesCounter;
     }
 
-    @Transient
-    private String info;
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    @Column(name = "files_counter")
+    private int filesCounter;
+
 
     @Lob
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "content", nullable = false)
     private byte[] content;
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "USER_ID")
     private User user;
@@ -58,6 +63,15 @@ public class UserDocument {
         this.content = content;
         this.user = user;
     }
+
+    public String getGlyphicon() {
+        return glyphicon;
+    }
+
+    public void setGlyphicon(String glyphicon) {
+        this.glyphicon = glyphicon;
+    }
+
 
     public boolean isFolder() {
         return folder;
@@ -150,10 +164,5 @@ public class UserDocument {
     public String toString() {
         return "UserDocument [id=" + id + ", name=" + name + ", description="
                 + description + ", type=" + type + "]";
-    }
-
-
-    public void setInfo(String info) {
-        this.info = info;
     }
 }

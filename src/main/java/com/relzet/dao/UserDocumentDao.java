@@ -11,10 +11,14 @@ public interface UserDocumentDao {
 	UserDocument findById(int id);
 	
 	void save(UserDocument document);
-	
+
+	void updateDoc(UserDocument document);
+
 	List<UserDocument> findAllByUserId(int userId);
 	
-	void deleteById(int id);
+	void deleteFolderById(int id);
+
+	void deleteById(int docId, int currentFolderId);
 
 	List<UserDocument> findAllInFolder(int userId, int docId);
 
@@ -31,4 +35,5 @@ public interface UserDocumentDao {
 	List<UserDocument> filterDocsInFolder(int userId, int docId, String[] filters);
 
 	boolean checkFolderNameUnique(int userId, int docId, String folderName);
+
 }

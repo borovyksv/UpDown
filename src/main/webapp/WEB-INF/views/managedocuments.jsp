@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <%--<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>--%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
@@ -64,9 +63,11 @@
             </button>
 
 
-            <a class="navbar-brand" href="<c:url value='/add-document-${user.id}' />"><i class="glyphicon glyphicon-hdd"></i> Your Disc
-            <c:set var="string" value="${currentFolder.description}"/>
-            <span style="margin-left: 125px" class="glyphicon glyphicon-th-list"></span>  Directory: ${fn:replace(string, '.', '/')}
+            <a class="navbar-brand" href="<c:url value='/add-document-${user.id}' />"><i
+                    class="glyphicon glyphicon-hdd"></i> Your Disc
+                <c:set var="string" value="${currentFolder.description}"/>
+                <span style="margin-left: 125px" class="glyphicon glyphicon-th-list"></span>
+                Directory: ${fn:replace(string, '.', '/')}
             </a>
         </div>
         <!-- Top Menu Items -->
@@ -74,7 +75,8 @@
 
 
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> ${user.firstName} ${user.lastName} <b
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                        class="fa fa-user"></i> ${user.firstName} ${user.lastName} <b
                         class="caret"></b></a>
                 <ul class="dropdown-menu">
                     <li>
@@ -82,7 +84,8 @@
                     </li>
 
                     <li>
-                        <a href="<c:url value='/edit-user-${user.ssoId}' />"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                        <a href="<c:url value='/edit-user-${user.ssoId}' />"><i class="fa fa-fw fa-gear"></i>
+                            Settings</a>
                     </li>
                     <li class="divider"></li>
                     <li>
@@ -113,14 +116,16 @@
                     <a href="#" type="button" data-toggle="modal" data-target="#new_folder"><span
                             class="glyphicon glyphicon-folder-close"></span> Create new Folder </a>
                     <c:if test="${fn:length(folderNameError) gt 0}">
-                        <a href="#" type="button" style="color: red"><span class="glyphicon glyphicon-warning-sign"></span> ${folderNameError} </a>
+                        <a href="#" type="button" style="color: red"><span
+                                class="glyphicon glyphicon-warning-sign"></span> ${folderNameError} </a>
                     </c:if>
                     <c:if test="${fn:length(folderUniqueError) gt 0}">
-                        <a href="#" type="button" style="color: red"><span class="glyphicon glyphicon-warning-sign"></span> ${folderUniqueError} </a>
+                        <a href="#" type="button" style="color: red"><span
+                                class="glyphicon glyphicon-warning-sign"></span> ${folderUniqueError} </a>
                     </c:if>
                 </li>
-
-
+<%----%>
+<%----%>
                 <li>
                     <a href="javascript:;" data-toggle="collapse" data-target="#demo"><span
                             class="glyphicon glyphicon-check"></span> Filters <i
@@ -151,13 +156,13 @@
                             </div>
                             <input type="submit" value="search">
                         </form>
-
+<%----%>
                     </div>
-
+<%----%>
                 </li>
                 <li>
                     <a href="javascript:;" data-toggle="collapse" data-target="#demo1" style="color: red;"><span
-                            class="glyphicon glyphicon-check" ></span> TOP files (coming soon) <i
+                            class="glyphicon glyphicon-check"></span> TOP files (coming soon) <i
                             class="fa fa-fw fa-caret-down"></i></a>
                     <div id="demo1" class="collapse in container row">
                     </div>
@@ -174,9 +179,9 @@
         <div class="container-fluid">
             <div class="divider"></div>
             <%--<div class="alert alert-info"--%>
-                 <%--aria-expanded="false" >--%>
-                <%--<c:set var="string" value="${currentFolder.description}"/>--%>
-                <%--<span class="glyphicon glyphicon-th-list"></span> Directory: ${fn:replace(string, '.', '/')}--%>
+            <%--aria-expanded="false" >--%>
+            <%--<c:set var="string" value="${currentFolder.description}"/>--%>
+            <%--<span class="glyphicon glyphicon-th-list"></span> Directory: ${fn:replace(string, '.', '/')}--%>
             <%--</div>--%>
 
             <c:if test="${fn:length(folders) gt 0}">
@@ -196,10 +201,10 @@
                             <div class="panel-heading cursor"
                                  onmouseenter="this.setAttribute('style','background-color:#163b5a;')"
                                  onmouseleave="this.setAttribute('style','background-color:#337ab7;')"
-                                 onclick="location.href = '<c:url value='/open-folder-${user.id}-${doc.id}' />';">
+                                 onclick="location.href = '<c:url value='/open-folder-${user.id}-${doc.id}'/>';">
                                 <div class="row">
                                     <div class="col-xs-2">
-                                        <i class="fa fa-folder fa-3x" ></i>
+                                        <i class="fa fa-folder fa-3x"></i>
 
                                     </div>
                                     <div class="col-xs-10 text-right">
@@ -213,15 +218,16 @@
                             </div>
                             <a href="#">
                                 <div class="panel-footer">
-                                    <%--<a href="<c:url value='/open-folder-${user.id}-${doc.id}' />"--%>
-                                    <%--class="btn btn-default btn-sm ">Open <span--%>
+                                        <%--<a href="<c:url value='/open-folder-${user.id}-${doc.id}' />"--%>
+                                        <%--class="btn btn-default btn-sm ">Open <span--%>
                                         <%--class="glyphicon glyphicon-folder-open"></span></a>--%>
-                                        <div class="row">
+                                    <div class="row">
 
                                         <a href="<c:url value='/delete-folder-${user.id}-${doc.id}' />"
-                                       class="btn btn-default btn-sm pull-right" style="margin-right: 10px"><span class="glyphicon glyphicon-trash"></span>
-                                        Delete</a>
-                                            </div>
+                                           class="btn btn-default btn-sm pull-right" style="margin-right: 10px">Delete <span
+                                                class="glyphicon glyphicon-trash"></span>
+                                            </a>
+                                    </div>
                                 </div>
                             </a>
                         </div>
@@ -232,7 +238,8 @@
 
             <c:choose>
             <c:when test="${fn:length(documents) gt 0}">
-            <div class="alert alert-success cursor" data-toggle="collapse" data-target="#files-collapse" aria-expanded="false"
+            <div class="alert alert-success cursor" data-toggle="collapse" data-target="#files-collapse"
+                 aria-expanded="false"
                  aria-controls="collapseExample">
                 <strong><span class="glyphicon glyphicon-plus"></span> Files</strong>
             </div>
@@ -254,31 +261,33 @@
                             <div class="panel-heading">
                                 <c:set var="type" value="${doc.type}"/>
                                 <c:forEach items="${types}" var="target" varStatus="counter">
-                                <c:choose>
-                                <c:when test="${fn:contains(type, target)}">
-                                    <div class="row">
-                                        <div class="collapse" id="collapseExample${doc.id}">
-                                            <div class="well">
-                                                <div class="embed-responsive embed-responsive-16by9">
-                                                    <iframe class="embed-responsive-item cursor"
-                                                            src="<c:url value='/preview-document-${user.id}-${doc.id}' />"></iframe>
+                                    <c:choose>
+                                        <c:when test="${fn:contains(type, target)}">
+                                            <div class="row">
+                                                <div class="collapse" id="collapseExample${doc.id}">
+                                                    <div class="well">
+                                                        <div class="embed-responsive embed-responsive-16by9">
+                                                            <iframe class="embed-responsive-item cursor"
+                                                                    src="<c:url value='/preview-document-${user.id}-${doc.id}' />"></iframe>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                        <c:set var="disabled" value="false"/>
-                                    </c:when>
+                                            <c:set var="disabled" value="false"/>
+                                        </c:when>
                                     </c:choose>
                                     <%--<c:if test="${fn:contains(type, target)}">--%>
-                                        <%----%>
+                                    <%----%>
                                     <%--</c:if>--%>
                                 </c:forEach>
                                 <div class="row">
                                     <div class="col-xs-3">
-                                        <i title="Click to preview in new window" class="fa fa-file${doc.glyphicon}o fa-5x cursor"
+                                        <i title="Click to preview in new window"
+                                           class="fa fa-file${doc.glyphicon}o fa-5x cursor"
                                            onmouseenter="this.setAttribute('style','color:#337ab7;')"
                                            onmouseleave="this.setAttribute('style','color:#333;')"
-                                           onclick="window.open('<c:url value='/preview-document-${user.id}-${doc.id}'/>','_blank')"></i>
+                                           onclick="window.open('<c:url
+                                                   value='/preview-document-${user.id}-${doc.id}'/>','_blank')"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
                                         <div>${doc.name}</div>
@@ -294,24 +303,21 @@
                             <a href="#">
                                 <div class="panel-footer  text-center">
                                     <div class=" text-center">
-                                        <a href="<c:url value='/delete-document-${user.id}-${doc.id}-${currentFolder.id}' />"
-                                           class="btn btn-default btn-sm"><span
-                                                class="glyphicon glyphicon-trash"></span> Delete</a>
-                                            <c:if test="${disabled eq false}">
-
-                                        <a class="btn btn-default btn-sm" id="${doc.id}" role="button" data-toggle="collapse"
-                                           href="#collapseExample${doc.id}" aria-expanded="false"
-                                           aria-controls="collapseExample">
-                                            Preview
-                                        </a>
-                                            </c:if>
-
-
                                         <a target="_blank"
                                            href="<c:url value='/download-document-${user.id}-${doc.id}' />"
-                                           class="btn btn-default btn-sm">Download <span
-                                                class="glyphicon glyphicon-download-alt"></span></a>
-
+                                           class="btn btn-default btn-sm"> <span
+                                                class="glyphicon glyphicon-download-alt"></span> Download</a>
+                                        <c:if test="${disabled eq false}">
+                                            <a class="btn btn-default btn-sm" id="${doc.id}" role="button"
+                                               data-toggle="collapse"
+                                               href="#collapseExample${doc.id}" aria-expanded="false"
+                                               aria-controls="collapseExample">
+                                                Preview
+                                            </a>
+                                        </c:if>
+                                        <a href="<c:url value='/delete-document-${user.id}-${doc.id}-${currentFolder.id}' />"
+                                           class="btn btn-default btn-sm">Delete <span
+                                                class="glyphicon glyphicon-trash"></span> </a>
                                     </div>
 
                                 </div>

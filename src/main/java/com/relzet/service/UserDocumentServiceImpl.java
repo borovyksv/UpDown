@@ -31,8 +31,13 @@ public class UserDocumentServiceImpl implements UserDocumentService{
 		dao.save(document);
 	}
 
-	public void deleteById(int id){
-		dao.deleteById(id);
+	public void deleteFolderById(int id){
+		dao.deleteFolderById(id);
+	}
+
+	@Override
+	public void deleteById(int docId, int currentFolderId) {
+		dao.deleteById(docId, currentFolderId);
 	}
 
 	public List<UserDocument> findAllInFolder(int userId, int docId) {
@@ -73,6 +78,11 @@ public class UserDocumentServiceImpl implements UserDocumentService{
 	@Override
 	public boolean checkFolderNameUnique(int userId, int docId, String folderName) {
 		return dao.checkFolderNameUnique(userId, docId, folderName);
+	}
+
+	@Override
+	public void updateDocument(UserDocument document) {
+		dao.updateDoc(document);
 	}
 
 
