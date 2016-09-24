@@ -18,15 +18,18 @@ UNIQUE (login)
 ); 
 
 
-create table USER_DOCUMENT( 
-id BIGINT NOT NULL AUTO_INCREMENT, 
-user_id BIGINT NOT NULL, 
-folder boolean,
-name VARCHAR(100) NOT NULL, 
-description VARCHAR(255) , 
-type VARCHAR(100) NOT NULL, 
-glyphicon VARCHAR(100), 
-content longblob NOT NULL, 
-PRIMARY KEY (id), 
-CONSTRAINT document_user FOREIGN KEY (user_id) REFERENCES APP_USER (id) ON UPDATE CASCADE ON DELETE CASCADE 
-);
+CREATE TABLE `user_document` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `folder` tinyint(1) DEFAULT NULL,
+  `name` varchar(100) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `type` varchar(100) NOT NULL,
+  `glyphicon` varchar(100) DEFAULT NULL,
+  `content` longblob NOT NULL,
+  `files_counter` int(11) DEFAULT NULL,
+  `size` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `document_user` (`user_id`),
+  CONSTRAINT `document_user` FOREIGN KEY (`user_id`) REFERENCES `app_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8
