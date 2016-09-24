@@ -8,6 +8,24 @@
 <html lang="en">
 
 <head>
+    <script>
+        function testFunc(link, plId) {
+            var el = $("." + plId);
+            var attr = el.attr('src');
+            if(attr === "about:blank"){
+                el.attr('src', link);
+            }
+            else{
+                el.attr('src', "about:blank");
+            }
+        }
+        //    $('yourbuttonselector').click(function () {
+        //        var src =this.src;
+        //        $.ajax("", function (data) {
+        //            var placeholder = $('placeholder_well').html(data);
+        //        })
+        //    })
+    </script>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,18 +39,18 @@
     <link rel="shortcut icon" href="/static/icon.png"
           type="image/x-icon">
     <!-- Bootstrap Core CSS -->
-    <link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet"></link>
+    <link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="<c:url value='/static/css/sb-admin.css' />" rel="stylesheet"></link>
-    <link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
+    <link href="<c:url value='/static/css/sb-admin.css' />" rel="stylesheet">
+    <link href="<c:url value='/static/css/app.css' />" rel="stylesheet">
 
     <!-- Morris Charts CSS -->
-    <link href="<c:url value='/static/css/plugins/morris.css' />" rel="stylesheet"></link>
+    <link href="<c:url value='/static/css/plugins/morris.css' />" rel="stylesheet">
 
 
     <!-- Custom Fonts -->
-    <link href="<c:url value='/static/font-awesome/css/font-awesome.min.css' />" rel="stylesheet"></link>
+    <link href="<c:url value='/static/font-awesome/css/font-awesome.min.css' />" rel="stylesheet">
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -41,7 +59,7 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <c:set var="types" value="${fn:split('image,text,pdf', ',')}" scope="application"/>
+    <c:set var="types" value="${fn:split('image,text,pdf,video', ',')}" scope="application"/>
     <c:set var="disabled" value="true"/>
 
 
@@ -267,8 +285,10 @@
                                                 <div class="collapse" id="collapseExample${doc.id}">
                                                     <div class="well">
                                                         <div class="embed-responsive embed-responsive-16by9">
-                                                            <iframe class="embed-responsive-item cursor"
-                                                                    src="<c:url value='/preview-document-${user.id}-${doc.id}' />"></iframe>
+
+                                                            <iframe class="embed-responsive-item cursor _pl${doc.id}"
+                                                                    <%--datatype="<c:url value='/preview-document-${user.id}-${doc.id}' />"--%>
+                                                                    src="about:blank"></iframe>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -306,11 +326,12 @@
                                         <a target="_blank"
                                            href="<c:url value='/download-document-${user.id}-${doc.id}' />"
                                            class="btn btn-default btn-sm"> <span
-                                                class="glyphicon glyphicon-download-alt"></span> Download</a>
+                                                class="fa fa-download"></span> Download</a>
                                         <c:if test="${disabled eq false}">
                                             <a class="btn btn-default btn-sm" id="${doc.id}" role="button"
                                                data-toggle="collapse"
                                                href="#collapseExample${doc.id}" aria-expanded="false"
+                                               onclick="testFunc('<c:url value='/preview-document-${user.id}-${doc.id}' />', '_pl${doc.id}' )"
                                                aria-controls="collapseExample">
                                                 Preview
                                             </a>
@@ -426,7 +447,24 @@
 <script src="/static/js/plugins/morris/raphael.min.js"></script>
 <script src="/static/js/plugins/morris/morris.min.js"></script>
 <script src="/static/js/plugins/morris/morris-data.js"></script>
-
+<%--<script type="javascript">--%>
+    <%--function testFunc(link, plId) {--%>
+        <%--var el = $(plId);--%>
+        <%--var attr = el.getAttribute('src');--%>
+        <%--if(attr === "about:blank"){--%>
+            <%--el.setAttribute('src', link);--%>
+        <%--}--%>
+        <%--else{--%>
+            <%--el.setAttribute('src', "about:blank");--%>
+        <%--}--%>
+    <%--}--%>
+<%--//    $('yourbuttonselector').click(function () {--%>
+<%--//        var src =this.src;--%>
+<%--//        $.ajax("", function (data) {--%>
+<%--//            var placeholder = $('placeholder_well').html(data);--%>
+<%--//        })--%>
+<%--//    })--%>
+<%--</script>--%>
 </body>
 
 </html>
