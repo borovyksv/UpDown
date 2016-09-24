@@ -8,24 +8,7 @@
 <html lang="en">
 
 <head>
-    <script>
-        function testFunc(link, plId) {
-            var el = $("." + plId);
-            var attr = el.attr('src');
-            if(attr === "about:blank"){
-                el.attr('src', link);
-            }
-            else{
-                el.attr('src', "about:blank");
-            }
-        }
-        //    $('yourbuttonselector').click(function () {
-        //        var src =this.src;
-        //        $.ajax("", function (data) {
-        //            var placeholder = $('placeholder_well').html(data);
-        //        })
-        //    })
-    </script>
+
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -183,6 +166,8 @@
                             class="glyphicon glyphicon-check"></span> TOP files (coming soon) <i
                             class="fa fa-fw fa-caret-down"></i></a>
                     <div id="demo1" class="collapse in container row">
+                        <div id="morris-donut-chart" style="height: 220px;width: 220px;"></div>
+
                     </div>
                 </li>
 
@@ -431,6 +416,7 @@
     </div>
 </div>
 
+
 <!-- jQuery -->
 <script src="/static/js/jquery.js"></script>
 
@@ -447,24 +433,36 @@
 <script src="/static/js/plugins/morris/raphael.min.js"></script>
 <script src="/static/js/plugins/morris/morris.min.js"></script>
 <script src="/static/js/plugins/morris/morris-data.js"></script>
-<%--<script type="javascript">--%>
-    <%--function testFunc(link, plId) {--%>
-        <%--var el = $(plId);--%>
-        <%--var attr = el.getAttribute('src');--%>
-        <%--if(attr === "about:blank"){--%>
-            <%--el.setAttribute('src', link);--%>
-        <%--}--%>
-        <%--else{--%>
-            <%--el.setAttribute('src', "about:blank");--%>
-        <%--}--%>
-    <%--}--%>
-<%--//    $('yourbuttonselector').click(function () {--%>
-<%--//        var src =this.src;--%>
-<%--//        $.ajax("", function (data) {--%>
-<%--//            var placeholder = $('placeholder_well').html(data);--%>
-<%--//        })--%>
-<%--//    })--%>
-<%--</script>--%>
+<script>
+    function testFunc(link, plId) {
+        var el = $("." + plId);
+        var attr = el.attr('src');
+        if(attr === "about:blank"){
+            el.attr('src', link);
+        }
+        else{
+            el.attr('src', "about:blank");
+        }
+    };
+
+    (function () {
+        Morris.Donut({
+            element: 'morris-donut-chart',
+            data: [{
+                label: "Download Sales",
+                value: 12
+            }, {
+                label: "In-Store Sales",
+                value: 30
+            }, {
+                label: "Mail-Order Sales",
+                value: 20
+            }],
+            resize: true
+        })
+    })();
+;
+</script>
 </body>
 
 </html>
